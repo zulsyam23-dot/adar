@@ -78,6 +78,15 @@ a:hover { opacity: 0.85; }
   transition: all 0.2s; text-decoration: none;
 }
 .nav-links a:hover { color: var(--text); background: var(--bg-card); }
+.btn-lib-nav {
+  background: var(--accent) !important;
+  color: white !important;
+  margin: 0 4px;
+}
+.btn-lib-nav:hover {
+  background: var(--accent-dark) !important;
+  transform: translateY(-1px);
+}
 .nav-gh {
   display: flex; align-items: center; gap: 6px;
   background: var(--bg-card) !important; border: 1px solid var(--border);
