@@ -18,7 +18,7 @@ async function initPyodide() {
   loading.classList.remove('hidden');
 
   try {
-    pyodide = await loadPyodide({
+    pyodide = await globalThis.loadPyodide({
       indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.27.4/full/',
     });
 
@@ -34,15 +34,15 @@ async function initPyodide() {
     }
 
     pyodide.runPython(`
-      import sys
-      sys.path.insert(0, '/compiler')
+import sys
+sys.path.insert(0, '/compiler')
     `);
 
     pyodideReady = true;
     loading.innerHTML = '<span class="spinner"></span> Compiler loaded! Click <strong>Compile</strong> to run.';
     setTimeout(() => { loading.classList.add('hidden'); }, 2000);
   } catch (err) {
-    error.textContent = 'Failed to load compiler: ' + err.message;
+    error.textContent = 'Failed to load compiler: ' + (err.message || err);
     error.classList.remove('hidden');
     loading.classList.add('hidden');
   }
@@ -91,13 +91,13 @@ async function compile() {
 
   const source = input.value;
   runBtn.disabled = true;
-  runBtn.textContent = 'Compiling...';
+  runBtn.innerHTML = 'Compiling...';
 
   pyodide.FS.writeFile('/tmp/playground.adar', source);
 
   try {
     const result = pyodide.runPython(`
-import json, sys
+import json
 from adar.lexer import Lexer
 from adar.parser import Parser
 from adar.checker import Checker, CSSSpec
@@ -107,47 +107,48 @@ from adar.codegen import CodeGenerator
 with open('/tmp/playground.adar', 'r') as f:
     source = f.read()
 
+out = {}
+
 try:
     lexer = Lexer(source, '<playground>')
     tokens = lexer.tokenize()
 except SyntaxError as e:
-    print(json.dumps({'error': f'Lexer Error: {e}'}))
-    sys.exit(0)
+    out = {'error': 'Lexer Error: ' + str(e)}
 
-try:
-    parser = Parser(tokens)
-    ast = parser.parse()
-except SyntaxError as e:
-    print(json.dumps({'error': f'Parser Error: {e}'}))
-    sys.exit(0)
+if not out:
+    try:
+        parser = Parser(tokens)
+        ast = parser.parse()
+    except SyntaxError as e:
+        out = {'error': 'Parser Error: ' + str(e)}
 
-spec = CSSSpec()
-checker = Checker(spec)
-result = checker.check(ast)
+if not out:
+    spec = CSSSpec()
+    checker = Checker(spec)
+    result = checker.check(ast)
+    if result.errors:
+        errs = '\\n'.join('Type Error: ' + e.message for e in result.errors)
+        out = {'error': errs}
 
-if result.errors:
-    errs = '\\n'.join(f'Type Error: {e.message}' for e in result.errors)
-    print(json.dumps({'error': errs}))
-    sys.exit(0)
+if not out:
+    resolver = Resolver()
+    resolved = resolver.resolve(ast)
+    codegen = CodeGenerator(scoped=False, pretty=True, source_file='<playground>')
+    css = codegen.generate(resolved)
+    out = {'css': css}
 
-resolver = Resolver()
-resolved = resolver.resolve(ast)
-
-codegen = CodeGenerator(scoped=False, pretty=True, source_file='<playground>')
-css = codegen.generate(resolved)
-
-print(json.dumps({'css': css}))
+print(json.dumps(out))
 `);
     const data = JSON.parse(result);
     if (data.error) {
-      output.innerHTML = data.error;
+      output.innerHTML = data.error.replace(/\n/g, '<br>');
       output.style.color = '#fca5a5';
     } else {
       output.textContent = data.css;
       output.style.color = '#6ee7b7';
     }
   } catch (err) {
-    output.innerHTML = 'Error: ' + err.message;
+    output.innerHTML = 'Error: ' + (err.message || err);
     output.style.color = '#fca5a5';
   }
 
