@@ -1,0 +1,22 @@
+[project]
+name = "adarlib-site"
+version = "0.1.0"
+description = ""
+author = ""
+
+[build]
+output = "output"
+minify = false
+scope = false
+source = "src"
+
+[dev]
+port = 8080
+watch = true
+livereload = true
+
+[dependencies]
+# Add libraries from the adarlib ecosystem:
+# tailwind-adar = "0.1.0"
+# daisy-adar = "0.1.0"
+# material-adar = "0.1.0"

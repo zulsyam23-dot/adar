@@ -258,6 +258,14 @@ class CodeGenerator:
                 css = self._value_to_css(v)
                 if css == "," and res:
                     res[-1] = res[-1] + ","
+                elif css == "!" and res:
+                    # Don't add space before ! (e.g. color: white !important)
+                    # But actually CSS allows space. However, let's join it with next if possible
+                    # Or just don't add space between previous and !
+                    res[-1] = res[-1] + " !"
+                elif res and res[-1].endswith(" !"):
+                    # Join ! with important
+                    res[-1] = res[-1] + css
                 else:
                     res.append(css)
             return " ".join(res)

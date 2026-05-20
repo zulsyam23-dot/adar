@@ -276,6 +276,11 @@ class Parser:
                 values.append(Identifier(","))
                 continue
 
+            if self._peek().type == TokenType.BANG:
+                self._advance()
+                values.append(Identifier("!"))
+                continue
+
             values.append(self._parse_single_value())
 
         if len(values) == 1:
