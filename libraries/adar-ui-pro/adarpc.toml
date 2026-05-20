@@ -1,0 +1,5 @@
+[package]
+name = "adar-ui-pro"
+version = "0.1.0"
+description = "Professional-grade components for Adar"
+author = "Adar"

@@ -1,0 +1,5 @@
+[package]
+name = "adar-ui-fancy"
+version = "0.1.0"
+description = "A beautiful component library for Adar"
+author = "Adar"

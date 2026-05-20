@@ -3,25 +3,25 @@
   "description": "Adar library registry — community libraries for the Adar styling language",
   "registry_url": "https://raw.githubusercontent.com/zulsyam23-dot/adarlib/main/registry.json",
   "libraries": {
-    "tailwind-adar": {
+    "adar-ui-core": {
       "version": "0.1.0",
-      "description": "Tailwind CSS utility classes ported to Adar — spacing, colors, typography, layout, shadows, and responsive utilities",
+      "description": "Essential utility classes for Adar — spacing, colors, typography, layout, and responsive utilities",
       "repo": "zulsyam23-dot/adarlib",
-      "path": "libraries/tailwind-adar",
+      "path": "libraries/adar-ui-core",
       "author": "Adar"
     },
-    "daisy-adar": {
+    "adar-ui-fancy": {
       "version": "0.1.0",
-      "description": "Component library for Adar inspired by daisyUI — buttons, cards, badges, alerts with themeable design tokens",
+      "description": "A beautiful component library for Adar — stylish buttons, cards, badges, and alerts",
       "repo": "zulsyam23-dot/adarlib",
-      "path": "libraries/daisy-adar",
+      "path": "libraries/adar-ui-fancy",
       "author": "Adar"
     },
-    "material-adar": {
+    "adar-ui-pro": {
       "version": "0.1.0",
-      "description": "Material Design 3 components for Adar — buttons, cards, chips, dialogs, typography scale, elevation system",
+      "description": "Professional-grade components for Adar — advanced buttons, chips, dialogs, and elevation systems",
       "repo": "zulsyam23-dot/adarlib",
-      "path": "libraries/material-adar",
+      "path": "libraries/adar-ui-pro",
       "author": "Adar"
     }
   }

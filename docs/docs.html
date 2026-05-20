@@ -949,17 +949,17 @@ livereload = true</pre>
     <h3>Available Libraries</h3>
     <table>
       <tr><th>Library</th><th>Version</th><th>Description</th></tr>
-      <tr><td><code>tailwind-adar</code></td><td>0.1.0</td><td>Tailwind CSS utility classes — spacing, colors, typography, layout, shadows</td></tr>
-      <tr><td><code>daisy-adar</code></td><td>0.1.0</td><td>Component library inspired by daisyUI — buttons, cards, badges, alerts</td></tr>
-      <tr><td><code>material-adar</code></td><td>0.1.0</td><td>Material Design 3 components — buttons, cards, chips, dialogs</td></tr>
+      <tr><td><code>adar-ui-core</code></td><td>0.1.0</td><td>Essential utility classes — spacing, colors, typography, layout, shadows</td></tr>
+      <tr><td><code>adar-ui-fancy</code></td><td>0.1.0</td><td>A beautiful component library — stylish buttons, cards, badges, alerts</td></tr>
+      <tr><td><code>adar-ui-pro</code></td><td>0.1.0</td><td>Professional-grade components — advanced buttons, chips, dialogs, elevation systems</td></tr>
     </table>
 
     <h3>Installing Libraries</h3>
     <pre class="code-block"><span class="comment"># Install a library</span>
-adarpc install tailwind-adar
+adarpc install adar-ui-core
 
 <span class="comment"># Install multiple libraries</span>
-adarpc install daisy-adar material-adar
+adarpc install adar-ui-fancy adar-ui-pro
 
 <span class="comment"># Install all libraries from adarpc.toml</span>
 adarpc install</pre>
@@ -970,12 +970,12 @@ adarpc install</pre>
     <h4>1. Searching for Libraries</h4>
     <p>Search the central registry for available libraries by keyword:</p>
     <pre class="code-block">adarpc search button
-adarpc search tailwind</pre>
+adarpc search adar-ui</pre>
 
     <h4>2. Installing Libraries</h4>
     <p>Install libraries to your local <code>libraries/</code> folder:</p>
     <pre class="code-block"># Install specific libraries
-adarpc install tailwind-adar daisy-adar
+adarpc install adar-ui-core adar-ui-fancy
 
 # Install all dependencies listed in adarpc.toml
 adarpc install</pre>
@@ -986,21 +986,21 @@ adarpc install</pre>
 
     <h4>4. Uninstalling Libraries</h4>
     <p>Remove a library from your project:</p>
-    <pre class="code-block">adarpc uninstall tailwind-adar</pre>
+    <pre class="code-block">adarpc uninstall adar-ui-core</pre>
 
     <h3>Using Libraries in .adar Files</h3>
     <p>After installing a library, use the <code>import</code> statement to include it:</p>
     <pre class="code-block"><span class="comment">// Import the entire library</span>
-<span class="keyword">import</span> <span class="string">"tailwind-adar"</span>
+<span class="keyword">import</span> <span class="string">"adar-ui-core"</span>
 
 <span class="comment">// Or import specific files</span>
-<span class="keyword">import</span> <span class="string">"daisy-adar/button"</span></pre>
+<span class="keyword">import</span> <span class="string">"adar-ui-fancy/button"</span></pre>
 
     <h3>Managing Dependencies</h3>
     <p>Add libraries to <code>adarpc.toml</code> to declare project dependencies:</p>
     <pre class="code-block">[dependencies]
-tailwind-adar = "0.1.0"
-daisy-adar = "0.1.0"</pre>
+adar-ui-core = "0.1.0"
+adar-ui-fancy = "0.1.0"</pre>
 
     <pre class="code-block"><span class="comment"># Install all declared dependencies</span>
 adarpc install</pre>

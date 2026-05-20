@@ -1,0 +1,5 @@
+[package]
+name = "adar-ui-core"
+version = "0.1.0"
+description = "Essential utility classes for Adar"
+author = "Adar"
