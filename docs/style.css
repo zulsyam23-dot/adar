@@ -250,30 +250,7 @@ a:hover { opacity: 0.85; }
 .code-block .prop { color: #fcd34d; }
 .code-block .cm { color: #64748b; font-style: italic; }
 
-/* Playground */
-.playground {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0; border: 1px solid var(--border); border-radius: var(--radius);
-  overflow: hidden;
-}
-@media (max-width: 768px) { .playground { grid-template-columns: 1fr; } }
-.playground-col { display: flex; flex-direction: column; }
-.playground-col:first-child { border-right: 1px solid var(--border); }
-@media (max-width: 768px) {
-  .playground-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
-}
-.playground-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 16px; background: var(--bg-card);
-  border-bottom: 1px solid var(--border);
-}
-.playground-title {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.05em; color: var(--text-dim);
-}
-.playground-title svg { opacity: 0.5; }
-.playground-actions { display: flex; align-items: center; gap: 6px; }
+/* Utility */
 .btn-icon {
   display: flex; align-items: center; justify-content: center;
   width: 32px; height: 32px; border-radius: var(--radius-sm);
@@ -281,36 +258,6 @@ a:hover { opacity: 0.85; }
   border: none; transition: all 0.2s;
 }
 .btn-icon:hover { background: var(--border); color: var(--text); }
-#input {
-  width: 100%; min-height: 420px; padding: 20px;
-  font-family: var(--font-mono); font-size: 14px; line-height: 1.7;
-  background: var(--bg-code); color: var(--text); border: none;
-  resize: vertical; outline: none; tab-size: 4;
-}
-.output-area {
-  width: 100%; min-height: 420px; padding: 20px;
-  font-family: var(--font-mono); font-size: 14px; line-height: 1.7;
-  background: var(--bg-code); color: #6ee7b7; margin: 0;
-  white-space: pre-wrap; overflow-x: auto;
-}
-.output-area strong { color: var(--text-dim); font-weight: 400; }
-
-/* Status Messages */
-.status {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 16px; margin-top: 12px;
-  border-radius: var(--radius-sm); font-size: 14px;
-}
-.status-info { background: rgba(59,130,246,0.1); color: var(--accent); }
-.status-error { background: rgba(239,68,68,0.1); color: #fca5a5; }
-.hidden { display: none !important; }
-
-.spinner {
-  width: 16px; height: 16px; border: 2px solid transparent;
-  border-top-color: currentColor; border-radius: 50%;
-  animation: spin 0.8s linear infinite; flex-shrink: 0;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
 
 /* Install — User-friendly */
 .install-hero { margin-bottom: 48px; }

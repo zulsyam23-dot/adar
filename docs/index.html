@@ -29,7 +29,6 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#examples">Examples</a>
-      <a href="#playground">Playground</a>
       <a href="docs.html">Docs</a>
       <a href="#install">Install</a>
       <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener" class="nav-gh">
@@ -62,11 +61,7 @@
     <p class="hero-sub">A modern CSS-like styling language with <strong>compile-time type checking</strong>.</p>
     <p class="hero-desc">Write modular, scoped styles with variables, mixins, nesting, themes, and if/else &mdash; then compile to clean CSS with zero runtime. Catch property errors before they reach the browser.</p>
     <div class="hero-actions">
-      <a href="#playground" class="btn btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
-        Try Playground
-      </a>
-      <a href="#install" class="btn btn-secondary">
+      <a href="#install" class="btn btn-primary">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         Install
       </a>
@@ -212,73 +207,7 @@
   </div>
 </section>
 
-<section id="playground" class="section">
-  <div class="section-label">Playground</div>
-  <h2>Try it live</h2>
-  <p class="section-desc">Write Adar on the left, see compiled CSS on the right. Powered by <a href="https://pyodide.org" target="_blank" rel="noopener">Pyodide</a> &mdash; Python running in your browser via WebAssembly.</p>
 
-  <div class="playground">
-    <div class="playground-col">
-      <div class="playground-header">
-        <span class="playground-title">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Input &mdash; Adar
-        </span>
-        <div class="playground-actions">
-          <button class="btn-icon" id="reset-btn" onclick="resetCode()" title="Reset to default">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
-          </button>
-          <button id="run-btn" class="btn btn-small" onclick="compile()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
-            Compile
-          </button>
-        </div>
-      </div>
-      <textarea id="input" spellcheck="false">// Variables
-$primary = #3b82f6
-$radius = 8px
-
-// Mixin
-mixin card-base {
-    border-radius: $radius
-    padding: 16px
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1)
-}
-
-// Rule with nesting
-.btn {
-    include card-base
-    background: $primary
-    color: white
-    border: none
-    cursor: pointer
-
-    &:hover {
-        background: #2563eb
-        transform: translateY(-2px)
-    }
-}</textarea>
-    </div>
-    <div class="playground-col">
-      <div class="playground-header">
-        <span class="playground-title">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Output &mdash; CSS
-        </span>
-        <button class="btn-icon" onclick="copyOutput()" title="Copy to clipboard">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        </button>
-      </div>
-      <pre id="output" class="output-area">Click <strong>Compile</strong> to run the compiler&hellip;</pre>
-    </div>
-  </div>
-
-  <div id="loading-indicator" class="status status-info hidden">
-    <div class="spinner"></div>
-    <span>Loading Pyodide (Python WebAssembly compiler)&hellip;</span>
-  </div>
-  <div id="error-display" class="status status-error hidden"></div>
-</section>
 
 <section id="install" class="section section-alt">
   <div class="section-label">Install</div>
@@ -370,7 +299,6 @@ adarpc init my-site</pre>
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/pyodide/v0.27.4/full/pyodide.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
