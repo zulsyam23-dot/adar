@@ -964,6 +964,30 @@ adarpc install daisy-adar material-adar
 <span class="comment"># Install all libraries from adarpc.toml</span>
 adarpc install</pre>
 
+    <h3>Managing Libraries via Terminal</h3>
+    <p>Adar provides a set of CLI commands through <code>adarpc</code> to manage your library ecosystem directly from the terminal.</p>
+
+    <h4>1. Searching for Libraries</h4>
+    <p>Search the central registry for available libraries by keyword:</p>
+    <pre class="code-block">adarpc search button
+adarpc search tailwind</pre>
+
+    <h4>2. Installing Libraries</h4>
+    <p>Install libraries to your local <code>libraries/</code> folder:</p>
+    <pre class="code-block"># Install specific libraries
+adarpc install tailwind-adar daisy-adar
+
+# Install all dependencies listed in adarpc.toml
+adarpc install</pre>
+
+    <h4>3. Listing Installed Libraries</h4>
+    <p>View all libraries currently installed in your project:</p>
+    <pre class="code-block">adarpc list</pre>
+
+    <h4>4. Uninstalling Libraries</h4>
+    <p>Remove a library from your project:</p>
+    <pre class="code-block">adarpc uninstall tailwind-adar</pre>
+
     <h3>Using Libraries in .adar Files</h3>
     <p>After installing a library, use the <code>import</code> statement to include it:</p>
     <pre class="code-block"><span class="comment">// Import the entire library</span>
