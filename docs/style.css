@@ -54,6 +54,7 @@ a:hover { opacity: 0.85; }
   color: var(--text) !important; text-decoration: none !important;
 }
 .logo-img { border-radius: 6px; }
+.logo-text { font-size: 17px; letter-spacing: -0.02em; }
 .nav-links { display: flex; align-items: center; gap: 8px; }
 .nav-links a {
   color: var(--text-muted); font-size: 14px; font-weight: 500;
@@ -100,13 +101,35 @@ a:hover { opacity: 0.85; }
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-.hero h1 {
-  font-family: var(--font-mono); font-size: clamp(48px, 10vw, 72px);
-  font-weight: 800; letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #a78bfa 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: 16px; line-height: 1.1;
+.hero-title-group { margin-bottom: 20px; }
+.hero-title {
+  display: inline-flex; align-items: baseline; gap: 2px;
+  font-family: var(--font-mono); font-size: clamp(56px, 12vw, 88px);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
+  margin-bottom: 0;
 }
+.hero-title .title-tag {
+  font-weight: 300; opacity: 0.3;
+  background: none; -webkit-text-fill-color: var(--text);
+  font-size: 0.7em; transform: translateY(-0.05em);
+}
+.hero-title .title-name {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+.title-underline {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-top: 8px; opacity: 0.5;
+}
+.title-underline span {
+  display: block; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.title-underline span:nth-child(1) { width: 24px; opacity: 0.3; }
+.title-underline span:nth-child(2) { width: 48px; opacity: 0.6; }
+.title-underline span:nth-child(3) { width: 24px; opacity: 0.3; }
 .hero-sub {
   font-size: clamp(16px, 2.5vw, 20px); color: var(--text);
   margin-bottom: 12px; font-weight: 500;
@@ -160,12 +183,18 @@ a:hover { opacity: 0.85; }
   border-radius: 50%; background: var(--accent);
 }
 .section h2 {
-  font-size: clamp(28px, 4vw, 36px); font-weight: 800;
-  margin-bottom: 12px; letter-spacing: -0.02em;
+  font-size: clamp(28px, 4vw, 40px); font-weight: 800;
+  margin-bottom: 12px; letter-spacing: -0.03em; line-height: 1.15;
 }
+.section h2::after {
+  content: ''; display: block; width: 48px; height: 3px;
+  border-radius: 2px; background: linear-gradient(90deg, var(--accent), transparent);
+  margin-top: 16px;
+}
+.section-alt h2::after { background: linear-gradient(90deg, var(--accent), transparent); }
 .section-desc {
   color: var(--text-muted); margin-bottom: 48px;
-  font-size: 16px; max-width: 600px;
+  font-size: 16px; max-width: 640px; line-height: 1.7;
 }
 
 /* Features Grid */

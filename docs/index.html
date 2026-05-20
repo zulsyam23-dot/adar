@@ -13,6 +13,9 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,8 +23,8 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="logo">
-      <img src="logo.svg" alt="Adar" class="logo-img" width="32" height="32">
-      <span>Adar</span>
+      <img src="logo.svg" alt="Adar" class="logo-img" width="28" height="28">
+      <span class="logo-text">&lt;Adar/&gt;</span>
     </a>
     <div class="nav-links">
       <a href="#features">Features</a>
@@ -43,7 +46,18 @@
     <div class="hero-logo">
       <img src="logo.svg" alt="Adar" width="96" height="96">
     </div>
-    <h1>Adar</h1>
+    <div class="hero-title-group">
+      <h1 class="hero-title">
+        <span class="title-tag">&lt;</span>
+        <span class="title-name">Adar</span>
+        <span class="title-tag">/&gt;</span>
+      </h1>
+      <div class="title-underline">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
     <p class="hero-sub">A modern CSS-like styling language with <strong>compile-time type checking</strong>.</p>
     <p class="hero-desc">Write modular, scoped styles with variables, mixins, nesting, themes, and if/else &mdash; then compile to clean CSS with zero runtime. Catch property errors before they reach the browser.</p>
     <div class="hero-actions">
@@ -298,8 +312,8 @@ adarpc init my-site</pre>
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="logo.svg" alt="Adar" width="24" height="24">
-      <span>Adar v0.1.0</span>
+      <img src="logo.svg" alt="Adar" width="20" height="20">
+      <span>&lt;Adar/&gt; &mdash; CSS-like styling language with type checking</span>
     </div>
     <div class="footer-links">
       <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener">GitHub</a>
