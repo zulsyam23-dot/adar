@@ -1,7 +1,11 @@
-// AdarLib Site Styling
-$primary = #10b981
+// AdarLib Site Styling - Synchronized with Adar Main Theme
+$primary = #6366f1
+$primary-dark = #4f46e5
 $bg-dark = #0f172a
-$text-muted = #64748b
+$text-light = #f8fafc
+$text-muted = #94a3b8
+
+import "components/button"
 
 * {
     margin: 0
@@ -11,24 +15,26 @@ $text-muted = #64748b
 
 body {
     font-family: "Inter", system-ui, sans-serif
-    background: #fdfdfd
-    color: #1e293b
+    line-height: 1.6
+    color: #334155
+    background: #ffffff
 }
 
 .container {
-    max-width: 1200px
+    max-width: 1100px
     margin: 0 auto
     padding: 0 24px
 }
 
 .navbar {
-    height: 72px
+    height: 80px
     display: flex
     align-items: center
-    background: white
     border-bottom: 1px solid #f1f5f9
     position: sticky
     top: 0
+    background: rgba(255, 255, 255, 0.8)
+    backdrop-filter: blur(8px)
     z-index: 100
 }
 
@@ -40,37 +46,59 @@ body {
 }
 
 .logo {
-    font-size: 20px
-    font-weight: 700
-    color: $primary
+    font-size: 24px
+    font-weight: 800
+    color: $bg-dark
+    letter-spacing: -0.02em
+    text-decoration: none
+}
+
+.nav-links {
+    display: flex
+    gap: 32px
+    align-items: center
+    
+    a {
+        text-decoration: none
+        color: #64748b
+        font-weight: 500
+        transition: color 0.2s
+        
+        &:hover {
+            color: $primary
+        }
+    }
 }
 
 .btn-upload {
     background: $bg-dark
     color: white
     border: none
-    padding: 8px 20px
-    border-radius: 6px
+    padding: 10px 20px
+    border-radius: 8px
     font-weight: 600
     cursor: pointer
-    transition: opacity 0.2s
+    transition: transform 0.2s
     
     &:hover {
-        opacity: 0.9
+        transform: translateY(-2px)
+        background: #1e293b
     }
 }
 
 .hero {
-    background: #f8fafc
-    padding: 80px 0
+    padding: 100px 0 60px
     text-align: center
+    background: radial-gradient(circle at top right, #f5f3ff, #ffffff)
     border-bottom: 1px solid #f1f5f9
     
     h1 {
-        font-size: 48px
+        font-size: 56px
         font-weight: 800
-        margin-bottom: 16px
-        letter-spacing: -0.02em
+        color: $bg-dark
+        line-height: 1.1
+        margin-bottom: 24px
+        letter-spacing: -0.03em
     }
     
     .accent {
@@ -79,9 +107,10 @@ body {
 }
 
 .hero-sub {
-    font-size: 18px
-    color: $text-muted
-    margin-bottom: 32px
+    font-size: 20px
+    color: #64748b
+    max-width: 700px
+    margin: 0 auto 40px
 }
 
 .search-bar {
@@ -90,43 +119,46 @@ body {
     
     input {
         width: 100%
-        padding: 16px 24px
-        border-radius: 12px
+        padding: 18px 28px
+        border-radius: 16px
         border: 1px solid #e2e8f0
         font-size: 16px
         outline: none
         box-shadow: 0 4px 6px rgba(0,0,0,0.02)
+        transition: all 0.2s
         
         &:focus {
             border-color: $primary
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1)
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1)
         }
     }
 }
 
 main {
-    padding: 64px 0
+    padding: 80px 0
 }
 
 .section-header {
-    margin-bottom: 32px
+    margin-bottom: 40px
     
     h2 {
-        font-size: 24px
+        font-size: 28px
+        color: $bg-dark
+        font-weight: 700
     }
 }
 
 .lib-grid {
     display: grid
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr))
-    gap: 24px
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))
+    gap: 32px
 }
 
 .lib-card {
-    background: white
+    padding: 32px
+    border-radius: 24px
+    background: #f8fafc
     border: 1px solid #f1f5f9
-    border-radius: 16px
-    padding: 24px
     display: flex
     flex-direction: column
     justify-content: space-between
@@ -134,7 +166,7 @@ main {
     
     &:hover {
         transform: translateY(-4px)
-        box-shadow: 0 12px 24px rgba(0,0,0,0.04)
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05)
     }
 }
 
@@ -142,22 +174,25 @@ main {
     font-size: 12px
     font-weight: 600
     color: $primary
-    background: rgba(16, 185, 129, 0.1)
-    padding: 4px 10px
+    background: rgba(99, 102, 241, 0.1)
+    padding: 4px 12px
     border-radius: 20px
     display: inline-block
-    margin-bottom: 12px
+    margin-bottom: 16px
 }
 
 .lib-info {
     h3 {
-        font-size: 20px
-        margin-bottom: 8px
+        font-size: 22px
+        margin-bottom: 12px
+        color: $bg-dark
+        font-weight: 700
     }
     
     p {
-        color: $text-muted
-        font-size: 14px
+        color: #64748b
+        font-size: 15px
+        line-height: 1.6
         margin-bottom: 24px
     }
 }
@@ -166,24 +201,25 @@ main {
     display: flex
     justify-content: space-between
     align-items: center
-    padding-top: 16px
-    border-top: 1px solid #f8fafc
+    padding-top: 20px
+    border-top: 1px solid #e2e8f0
 }
 
 .version {
-    font-size: 12px
+    font-size: 13px
     color: #94a3b8
-    font-weight: 500
+    font-weight: 600
 }
 
 .btn-download {
     text-decoration: none
-    color: #1e293b
-    font-weight: 600
-    font-size: 14px
+    color: $primary
+    font-weight: 700
+    font-size: 15px
+    transition: color 0.2s
     
     &:hover {
-        color: $primary
+        color: $primary-dark
     }
 }
 
@@ -195,7 +231,7 @@ main {
     width: 100%
     height: 100%
     background: rgba(15, 23, 42, 0.6)
-    backdrop-filter: blur(4px)
+    backdrop-filter: blur(8px)
     justify-content: center
     align-items: center
     z-index: 200
@@ -203,31 +239,40 @@ main {
 
 .modal-content {
     background: white
-    padding: 40px
-    border-radius: 24px
-    max-width: 400px
+    padding: 48px
+    border-radius: 32px
+    max-width: 440px
     text-align: center
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25)
     
     h3 {
-        font-size: 24px
+        font-size: 28px
         margin-bottom: 16px
+        color: $bg-dark
+        font-weight: 800
     }
     
     p {
-        color: $text-muted
+        color: #64748b
         margin-bottom: 32px
+        font-size: 16px
     }
 }
 
-.btn-primary {
+.btn-primary-modal {
     display: block
     background: $primary
     color: white
     text-decoration: none
-    padding: 12px
-    border-radius: 8px
-    font-weight: 600
-    margin-bottom: 12px
+    padding: 14px
+    border-radius: 12px
+    font-weight: 700
+    margin-bottom: 16px
+    transition: background 0.2s
+    
+    &:hover {
+        background: $primary-dark
+    }
 }
 
 .btn-close {
@@ -235,11 +280,13 @@ main {
     border: none
     color: #94a3b8
     cursor: pointer
-    font-weight: 500
+    font-weight: 600
+    font-size: 14px
 }
 
 .footer {
-    padding: 48px 0
+    padding: 80px 0
+    border-top: 1px solid #f1f5f9
     text-align: center
     color: #94a3b8
     font-size: 14px
