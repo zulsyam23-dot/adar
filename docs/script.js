@@ -189,9 +189,20 @@ mixin card-base {
 }`;
 }
 
+function copyText(btn) {
+  const code = btn.parentElement.querySelector('code');
+  if (code) {
+    navigator.clipboard.writeText(code.textContent).catch(() => {});
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+    setTimeout(() => { btn.innerHTML = orig; }, 1500);
+  }
+}
+
 window.compile = compile;
 window.copyOutput = copyOutput;
 window.resetCode = resetCode;
+window.copyText = copyText;
 
 if (document.getElementById('playground')) {
   initPyodide();

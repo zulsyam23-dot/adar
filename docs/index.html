@@ -283,26 +283,68 @@ mixin card-base {
 <section id="install" class="section section-alt">
   <div class="section-label">Install</div>
   <h2>Get started in seconds</h2>
-  <p class="section-desc">Choose your preferred installation method.</p>
+  <p class="section-desc">Pilih cara instalasi yang paling mudah untuk kamu.</p>
 
-  <div class="install-grid">
-    <div class="install-card">
-      <div class="install-card-header">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
-        <h3>Windows (Standalone .exe)</h3>
+  <div class="install-hero">
+    <div class="install-hero-card">
+      <div class="install-hero-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
       </div>
-      <p>Download <code>adar.exe</code> and <code>adarpc.exe</code> from <a href="https://github.com/zulsyam23-dot/adar/releases" target="_blank" rel="noopener">GitHub Releases</a>. Run <code>install.bat</code> as Administrator to add to PATH.</p>
-      <pre class="code-block">adar build style.adar -o dist/
+      <h3>Windows &mdash; One-Click Install</h3>
+      <p class="install-hero-desc">Download dan install <strong>adar.exe</strong> + <strong>adarpc.exe</strong> langsung, tanpa perlu Python atau dependensi apapun.</p>
+      <div class="install-hero-actions">
+        <a href="https://github.com/zulsyam23-dot/adar/releases/latest/download/adar.exe" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download adar.exe
+        </a>
+        <a href="https://github.com/zulsyam23-dot/adar/releases/latest/download/adarpc.exe" class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download adarpc.exe
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="install-steps">
+    <div class="install-step">
+      <div class="install-step-num">1</div>
+      <div class="install-step-body">
+        <h4>Download file .exe</h4>
+        <p>Klik tombol di atas untuk download <code>adar.exe</code> dan <code>adarpc.exe</code>.</p>
+      </div>
+    </div>
+    <div class="install-step">
+      <div class="install-step-num">2</div>
+      <div class="install-step-body">
+        <h4>Install (tambah ke PATH)</h4>
+        <p>Buka folder tempat file .exe disimpan, lalu jalankan PowerShell sebagai Administrator:</p>
+        <div class="install-copy-line">
+          <code>Set-ExecutionPolicy Unrestricted -Scope Process -Force; .\install.ps1</code>
+          <button class="btn-icon" onclick="copyText(this)" title="Salin perintah">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <p class="install-step-alt">Atau double-click <code>install.bat</code> (auto-download .exe jika belum ada).</p>
+      </div>
+    </div>
+    <div class="install-step">
+      <div class="install-step-num">3</div>
+      <div class="install-step-body">
+        <h4>Selesai! Mulai pakai</h4>
+        <p class="install-step-alt">Buka terminal baru, lalu coba:</p>
+        <pre class="code-block">adar build style.adar -o dist/
 adar check style.adar
 adarpc init my-project
 adarpc build
 adarpc serve</pre>
-    </div>
-    <div class="install-card">
-      <div class="install-card-header">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        <h3>Python (pip)</h3>
       </div>
+    </div>
+  </div>
+
+  <details class="install-details">
+    <summary><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Cara alternatif: Python (pip)</summary>
+    <div class="install-details-body">
+      <p>Butuh Python 3.11+. Clone repo dan install dengan pip:</p>
       <pre class="code-block">git clone https://github.com/zulsyam23-dot/adar.git
 cd adar
 pip install -e .
@@ -311,7 +353,7 @@ adar build src/style.adar -o dist/
 adar check src/
 adarpc init my-site</pre>
     </div>
-  </div>
+  </details>
 </section>
 
 <footer class="footer">
