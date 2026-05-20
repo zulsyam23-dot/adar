@@ -1088,12 +1088,12 @@ description = "My component library"</pre>
 }</pre>
 
     <h2 id="js-integration">JavaScript & Framework Integration</h2>
-    <p>Adar is compatible with modern JavaScript workflows through <strong>CSS Modules</strong>. When <code>scope = true</code> is enabled in <code>adarpc.toml</code>, the build process generates a <code>modules.json</code> file in the output directory.</p>
+    <p>Adar is compatible with modern JavaScript workflows through <strong>CSS Modules</strong>. When <code>scope = true</code> is enabled in <code>adarpc.toml</code>, the build process generates an <code>adar-modules.json</code> file in the output directory.</p>
 
     <h3>1. Using with JavaScript/React</h3>
     <p>You can import the generated mapping to use scoped class names in your components:</p>
     <pre class="code-block"><span class="comment">// Import the class mapping</span>
-<span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">'./output/modules.json'</span>;
+<span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">'./output/adar-modules.json'</span>;
 
 <span class="keyword">function</span> <span class="function">Button</span>() {
     <span class="comment">// Use the scoped name for 'btn-primary' from 'style.adar'</span>
@@ -1101,19 +1101,23 @@ description = "My component library"</pre>
     <span class="keyword">return</span> <span class="tag">&lt;button</span> <span class="attribute">className</span>={className}<span class="tag">&gt;</span>Click Me<span class="tag">&lt;/button&gt;</span>;
 }</pre>
 
-    <h3>2. How it Works</h3>
-    <p>The <code>modules.json</code> file contains a nested mapping of source files to their original and scoped class names:</p>
-    <pre class="code-block">{
-  <span class="property">"style.adar"</span>: {
-    <span class="property">"btn-primary"</span>: <span class="string">"btn-primary__a1b2c3"</span>,
-    <span class="property">"container"</span>: <span class="string">"container__d4e5f6"</span>
-  },
-  <span class="property">"components/card.adar"</span>: {
-    <span class="property">"card"</span>: <span class="string">"card__g7h8i9"</span>
-  }
+    <h3>2. Global Escape Hatch</h3>
+    <p>If you need a class to remain global (not scoped), use the <code>:global()</code> selector:</p>
+    <pre class="code-block"><span class="comment">// Remains .btn in output CSS</span>
+<span class="selector">:global(.btn)</span> {
+    <span class="property">padding</span>: <span class="string">10px</span>
 }</pre>
 
-    <h3>3. Real-world Project Structure</h3>
+    <h3>3. Collision Prevention</h3>
+    <p>To ensure your Adar styles never conflict with other libraries, Adar uses a <strong>Triple-Seed Hash</strong>:</p>
+    <ul>
+      <li><strong>Project Name</strong> (from <code>adarpc.toml</code>)</li>
+      <li><strong>File Path</strong> (relative to <code>src/</code>)</li>
+      <li><strong>Class Name</strong></li>
+    </ul>
+    <p>The output file is named <code>adar-modules.json</code> to avoid conflicts with standard <code>modules.json</code> files used by other build tools.</p>
+
+    <h3>4. Real-world Project Structure</h3>
     <p>In a React or Vue project, keep your <code>.adar</code> files next to your components and use <code>adarpc watch</code> to sync changes:</p>
     <pre class="code-block">my-app/
 ├── src/
