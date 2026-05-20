@@ -39,7 +39,7 @@ async function initPyodide() {
 
 async function fetchCompilerFiles() {
   const files = {};
-  const base = '/adar/docs/compiler';
+  const base = '/adar/compiler';
 
   const knownFiles = [
     '__init__.py', 'cli.py',
