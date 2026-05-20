@@ -1,57 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adar | Modern Styling Language</title>
-    <link rel="stylesheet" href="style/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adar — CSS-like styling language with compile-time type checking</title>
+<meta name="description" content="Adar is a modern CSS-like styling language that compiles to modular, scoped CSS with compile-time type checking. Catch property errors before they reach the browser.">
+<meta property="og:title" content="Adar — CSS-like styling language with type checking">
+<meta property="og:description" content="Write modular, scoped styles with variables, mixins, nesting, themes, and if/else. Compiles to clean CSS with zero runtime.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zulsyam23-dot.github.io/adar/">
+<meta property="og:image" content="https://zulsyam23-dot.github.io/adar/og-image.svg">
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container nav-flex">
-            <div class="logo">Adar</div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="adarlib/index.html" class="btn-lib">AdarLib</a>
-                <a href="https://github.com/zulsyam23-dot/adar" target="_blank">GitHub</a>
-            </div>
-        </div>
-    </nav>
 
-    <header class="hero">
-        <div class="container">
-            <h1>Styling with <span class="accent">Confidence</span></h1>
-            <p class="hero-sub">The utility-first styling language with compile-time type checking. Catch errors before they reach the browser.</p>
-            <div class="hero-actions">
-                <a href="#" class="btn btn-primary">Get Started</a>
-                <a href="https://github.com/zulsyam23-dot/adar" class="btn btn-outline">View on GitHub</a>
-            </div>
-        </div>
-    </header>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <img src="logo.svg" alt="Adar" class="logo-img" width="28" height="28">
+      <span class="logo-text">&lt;Adar/&gt;</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#features">Features</a>
+      <a href="#examples">Examples</a>
+      <a href="https://zulsyam23-dot.github.io/adarlib/" class="btn-lib-nav">AdarLib</a>
+      <a href="docs.html">Docs</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener" class="nav-gh">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </div>
+  <div class="nav-overlay" id="navOverlay"></div>
+</nav>
 
-    <section id="features" class="features">
-        <div class="container">
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>Type Safe</h3>
-                    <p>Adar validates your CSS properties at compile time, ensuring you never ship invalid styles.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Modular</h3>
-                    <p>Built-in support for components and imports makes managing large stylesheets a breeze.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Zero Runtime</h3>
-                    <p>Compiles down to clean, optimized CSS. No bulky JS runtimes needed in the browser.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-logo">
+      <img src="logo.svg" alt="Adar" width="96" height="96">
+    </div>
+    <div class="hero-title-group">
+      <h1 class="hero-title">
+        <span class="title-tag">&lt;</span>
+        <span class="title-name">Adar</span>
+        <span class="title-tag">/&gt;</span>
+      </h1>
+      <div class="title-underline">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <p class="hero-sub">A modern CSS-like styling language with <strong>compile-time type checking</strong>.</p>
+    <p class="hero-desc">Write modular, scoped styles with variables, mixins, nesting, themes, and if/else &mdash; then compile to clean CSS with zero runtime. Catch property errors before they reach the browser.</p>
+    <div class="hero-actions">
+      <a href="#install" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Install
+      </a>
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener" class="btn btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Source
+      </a>
+      <a href="docs.html" class="btn btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        Docs
+      </a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">v0.1.0</span>
+      <span class="badge">MIT License</span>
+      <span class="badge">Python 3.11+</span>
+    </div>
+  </div>
+</section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Adar Language. Built for speed and safety.</p>
+<section id="features" class="section">
+  <div class="section-label">Features</div>
+  <h2>Everything you need for modern styles</h2>
+  <p class="section-desc">Adar combines the best ideas from CSS preprocessors with compile-time safety.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
+      <h3>Type Checking</h3>
+      <p>Detects invalid CSS property values at compile time. 150+ properties validated by type.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>CSS Modules</h3>
+      <p>Automatic class scoping with <code>.modules.json</code> mapping. No more conflicts.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <h3>Themes</h3>
+      <p><code>theme name { }</code> compiles to <code>[data-theme="name"]</code> selectors with CSS custom properties.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h12"/></svg>
+      </div>
+      <h3>Mixins</h3>
+      <p>Reusable style blocks with parameters. Keep your code DRY.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <h3>Nesting</h3>
+      <p>CSS nesting with <code>&amp;</code> parent reference. Compiles to clean nested CSS.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </div>
+      <h3>if/else</h3>
+      <p>Compile-time conditionals. Toggle features on/off with variables.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      </div>
+      <h3>CSS Variables</h3>
+      <p><code>$var</code> becomes <code>var(--var)</code> in output. Automatic scoping.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Property Validation</h3>
+      <p>Wrong unit? Invalid color? Invalid property? Caught instantly at compile time.</p>
+    </div>
+  </div>
+</section>
+
+<section id="examples" class="section section-alt">
+  <div class="section-label">Examples</div>
+  <h2>See Adar in action</h2>
+  <p class="section-desc">A button component with themes, variables, nesting, and mixins.</p>
+
+  <div class="code-tabs">
+    <div class="code-tab active" data-tab="adar">Adar</div>
+    <div class="code-tab" data-tab="css">Compiled CSS</div>
+  </div>
+
+  <div class="code-panel active" id="code-adar">
+    <pre class="code-block"><span class="cm">// Variables</span>
+<span class="kw">$primary</span> = <span class="val">#3b82f6</span>
+<span class="kw">$radius</span> = <span class="val">8px</span>
+
+<span class="cm">// Mixin</span>
+<span class="kw">mixin</span> <span class="fn">card-base</span> {
+    <span class="prop">border-radius</span>: <span class="val">$radius</span>
+    <span class="prop">padding</span>: <span class="val">16px</span>
+    <span class="prop">box-shadow</span>: <span class="val">0 2px 8px rgba(0,0,0,0.1)</span>
+}
+
+<span class="cm">// Rule with nesting</span>
+<span class="sel">.btn</span> {
+    <span class="kw">include</span> <span class="fn">card-base</span>
+    <span class="prop">background</span>: <span class="val">$primary</span>
+    <span class="prop">color</span>: <span class="val">white</span>
+    <span class="prop">border</span>: <span class="val">none</span>
+    <span class="prop">cursor</span>: <span class="val">pointer</span>
+
+    <span class="sel">&amp;:hover</span> {
+        <span class="prop">background</span>: <span class="val">#2563eb</span>
+        <span class="prop">transform</span>: <span class="val">translateY(-2px)</span>
+    }
+
+    <span class="sel">&amp;:active</span> {
+        <span class="prop">transform</span>: <span class="val">translateY(0)</span>
+    }
+}</pre>
+  </div>
+
+  <div class="code-panel" id="code-css">
+    <pre class="code-block"><span class="sel">.btn__a1b2c3</span> {
+  <span class="prop">border-radius</span>: <span class="val">var(--radius)</span>;
+  <span class="prop">padding</span>: <span class="val">16px</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 2px 8px rgba(0,0,0,0.1)</span>;
+  <span class="prop">background</span>: <span class="val">var(--primary)</span>;
+  <span class="prop">color</span>: <span class="val">white</span>;
+  <span class="prop">border</span>: <span class="val">none</span>;
+  <span class="prop">cursor</span>: <span class="val">pointer</span>;
+}
+<span class="sel">.btn__a1b2c3:hover</span> {
+  <span class="prop">background</span>: <span class="val">#2563eb</span>;
+  <span class="prop">transform</span>: <span class="val">translateY(-2px)</span>;
+}
+<span class="sel">.btn__a1b2c3:active</span> {
+  <span class="prop">transform</span>: <span class="val">translateY(0)</span>;
+}</pre>
+  </div>
+</section>
+
+
+
+<section id="install" class="section section-alt">
+  <div class="section-label">Install</div>
+  <h2>Get started in seconds</h2>
+  <p class="section-desc">Choose the installation method that works best for you.</p>
+
+  <div class="install-hero">
+    <div class="install-hero-card">
+      <div class="install-hero-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+      </div>
+      <h3>Windows &mdash; One-Click Install</h3>
+      <p class="install-hero-desc">Download <strong>adar.exe</strong> and <strong>adarpc.exe</strong> directly &mdash; no Python or dependencies required.</p>
+      <div class="install-hero-actions">
+        <a href="https://github.com/zulsyam23-dot/adar/releases/latest/download/adar.exe" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download adar.exe
+        </a>
+        <a href="https://github.com/zulsyam23-dot/adar/releases/latest/download/adarpc.exe" class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download adarpc.exe
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="install-steps">
+    <div class="install-step">
+      <div class="install-step-num">1</div>
+      <div class="install-step-body">
+        <h4>Download the .exe files</h4>
+        <p>Click the buttons above to download <code>adar.exe</code> and <code>adarpc.exe</code>.</p>
+      </div>
+    </div>
+    <div class="install-step">
+      <div class="install-step-num">2</div>
+      <div class="install-step-body">
+        <h4>Install (add to PATH)</h4>
+        <p>Open the folder where the .exe files are saved, then run PowerShell as Administrator:</p>
+        <div class="install-copy-line">
+          <code>Set-ExecutionPolicy Unrestricted -Scope Process -Force; .\install.ps1</code>
+          <button class="btn-icon" onclick="copyText(this)" title="Copy command">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
         </div>
-    </footer>
+        <p class="install-step-alt">Or double-click <code>install.bat</code> (auto-downloads .exe if missing).</p>
+      </div>
+    </div>
+    <div class="install-step">
+      <div class="install-step-num">3</div>
+      <div class="install-step-body">
+        <h4>Done! Start using Adar</h4>
+        <p class="install-step-alt">Open a new terminal, then try:</p>
+        <pre class="code-block">adar build style.adar -o dist/
+adar check style.adar
+adarpc init my-project
+adarpc build
+adarpc serve</pre>
+      </div>
+    </div>
+  </div>
+
+  <details class="install-details">
+    <summary><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Alternative: Python (pip)</summary>
+    <div class="install-details-body">
+      <p>Butuh Python 3.11+. Clone repo dan install dengan pip:</p>
+      <pre class="code-block">git clone https://github.com/zulsyam23-dot/adar.git
+cd adar
+pip install -e .
+
+adar build src/style.adar -o dist/
+adar check src/
+adarpc init my-site</pre>
+    </div>
+  </details>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo.svg" alt="Adar" width="20" height="20">
+      <span>&lt;Adar/&gt; &mdash; CSS-like styling language with type checking</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/zulsyam23-dot/adar/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      <a href="docs/guide.md" target="_blank" rel="noopener">Documentation</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
