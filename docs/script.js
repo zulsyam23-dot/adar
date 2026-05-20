@@ -50,7 +50,7 @@ sys.path.insert(0, '/compiler')
 
 async function fetchCompilerFiles() {
   const files = {};
-  const base = '/adar/compiler';
+  const base = 'compiler';
 
   const knownFiles = [
     '__init__.py', 'cli.py',
@@ -68,7 +68,7 @@ async function fetchCompilerFiles() {
     try {
       const resp = await fetch(url);
       if (resp.ok) {
-        files[`/compiler/${f}`] = await resp.text();
+        files[`/compiler/adar/${f}`] = await resp.text();
       }
     } catch {}
   }
