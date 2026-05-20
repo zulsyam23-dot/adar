@@ -997,6 +997,35 @@ adarpc list</pre>
 ├── button.adar      <span class="comment">// Optional components</span>
 └── card.adar</pre>
 
+    <h2 id="library-best-practices">Library Best Practices</h2>
+    <p>To ensure your libraries are reusable and don't conflict with other code, follow these guidelines:</p>
+
+    <h3>1. Use Mixins for Components</h3>
+    <p>Avoid defining classes directly in your library. Instead, wrap them in mixins so users can decide which classes to apply them to.</p>
+    <pre class="code-block"><span class="comment">// BAD: Forces the class name .btn</span>
+<span class="selector">.btn</span> { <span class="property">padding</span>: <span class="string">10px</span> }
+
+<span class="comment">// GOOD: Flexible and reusable</span>
+<span class="keyword">mixin</span> <span class="function">btn-base</span> { <span class="property">padding</span>: <span class="string">10px</span> }</pre>
+
+    <h3>2. Prefix Variables & Mixins</h3>
+    <p>To avoid naming collisions, always prefix your global variables and mixins with your library name.</p>
+    <pre class="code-block"><span class="comment">// my-lib/index.adar</span>
+<span class="keyword">$ml-primary</span> = <span class="string">#3b82f6</span>
+<span class="keyword">mixin</span> <span class="function">ml-button</span> { ... }</pre>
+
+    <h3>3. Modular Imports</h3>
+    <p>Structure your library so users can import only what they need. This keeps the output CSS clean.</p>
+    <pre class="code-block"><span class="comment">// User file</span>
+<span class="keyword">import</span> <span class="string">"material-adar/button"</span> <span class="comment">// Only imports button styles</span></pre>
+
+    <h3>4. Parameterize Everything</h3>
+    <p>Make your mixins flexible by using parameters instead of hardcoding values.</p>
+    <pre class="code-block"><span class="keyword">mixin</span> <span class="function">card</span>(<span class="string">$bg</span>, <span class="string">$radius</span>) {
+    <span class="property">background</span>: <span class="string">$bg</span>
+    <span class="property">border-radius</span>: <span class="string">$radius</span>
+}</pre>
+
     <p>Example <code>adarpc.toml</code> for a library:</p>
     <pre class="code-block">[package]
 name = "my-library"
