@@ -16,7 +16,12 @@ def init_project(name: str, path: Path | None = None) -> Path:
 
     # Create directory structure
     src_dir = target / "src"
+    comp_dir = src_dir / "components"
+    assets_dir = src_dir / "assets"
+    
     src_dir.mkdir(parents=True, exist_ok=True)
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    assets_dir.mkdir(parents=True, exist_ok=True)
 
     # Write config
     write_default_config(name, target)
@@ -24,6 +29,7 @@ def init_project(name: str, path: Path | None = None) -> Path:
     # Write templates
     _write_template("index.html", src_dir / "index.html", name=name)
     _write_template("style.adar", src_dir / "style.adar", project_name=name)
+    _write_template("button.adar", comp_dir / "button.adar")
 
     # .gitignore
     gitignore = target / ".gitignore"

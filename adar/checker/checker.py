@@ -165,8 +165,18 @@ class Checker:
             if isinstance(child, Property):
                 self._check_property(child)
             elif isinstance(child, MixinInclude):
-                if child.name not in self._mixins:
+                mixin = self._mixins.get(child.name)
+                if mixin is None:
                     self._error(f"Undefined mixin: {child.name}", child)
+                else:
+                    if len(child.args) > 0 and len(child.args) != len(mixin.params):
+                        self._error(
+                            f"Mixin '{child.name}' expects {len(mixin.params)} arguments, "
+                            f"got {len(child.args)}",
+                            child,
+                        )
+                    for arg in child.args:
+                        self._check_value(arg)
             elif isinstance(child, Rule):
                 self._check_rule(child)
             elif isinstance(child, MediaQuery):

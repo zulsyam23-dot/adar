@@ -55,10 +55,6 @@ class CodeGenerator:
                 self._global_vars.append(child)
             elif isinstance(child, ThemeDef):
                 self._themes.append(child)
-            elif isinstance(child, Rule):
-                for c in child.children:
-                    if isinstance(c, VariableAssign):
-                        self._global_vars.append(c)
 
     def _emit_global_vars(self) -> None:
         if not self._global_vars:
@@ -257,7 +253,14 @@ class CodeGenerator:
         if isinstance(value, UnaryOp):
             return f"{value.op}({self._value_to_css(value.operand)})"
         if isinstance(value, ValueList):
-            return " ".join(self._value_to_css(v) for v in value.values)
+            res = []
+            for i, v in enumerate(value.values):
+                css = self._value_to_css(v)
+                if css == "," and res:
+                    res[-1] = res[-1] + ","
+                else:
+                    res.append(css)
+            return " ".join(res)
         return ""
 
     def _write(self, text: str) -> None:

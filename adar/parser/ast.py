@@ -114,12 +114,13 @@ class Property(Node):
 
 
 class MixinInclude(Node):
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, args: list[ValueExpr] | None = None) -> None:
         super().__init__()
         self.name = name
+        self.args = args or []
 
     def __repr__(self) -> str:
-        return self._repr(name=self.name)
+        return self._repr(name=self.name, args=str(self.args))
 
 
 class MediaQuery(Node):

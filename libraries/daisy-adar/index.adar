@@ -1,0 +1,264 @@
+// daisy-adar v0.1.0
+// Component library for Adar — inspired by daisyUI
+// Import: import "daisy-adar"
+
+// ─── Design Tokens ───
+$primary = #570df8
+$primary-focus = #4506cb
+$primary-content = #ffffff
+$secondary = #f000b8
+$secondary-focus = #bd0091
+$secondary-content = #ffffff
+$accent = #37cdbe
+$accent-focus = #2ba69a
+$accent-content = #ffffff
+$neutral = #3d4451
+$neutral-focus = #2a2e37
+$neutral-content = #ffffff
+$base-100 = #ffffff
+$base-200 = #f2f2f2
+$base-300 = #e5e6e6
+$base-content = #1f2937
+$info = #3abff8
+$success = #36d399
+$warning = #fbbd23
+$error = #f87272
+
+// ─── Button ───
+mixin btn-base {
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+    height: 3rem
+    padding-left: 1.5rem
+    padding-right: 1.5rem
+    font-size: 14px
+    font-weight: 600
+    line-height: 1
+    border-radius: 8px
+    border: 1px solid transparent
+    cursor: pointer
+    transition: all 0.2s ease
+    user-select: none
+
+    &:hover {
+        filter: brightness(1.1)
+    }
+
+    &:active {
+        transform: scale(0.97)
+    }
+}
+
+.btn {
+    include btn-base
+    background: $base-200
+    color: $base-content
+    border-color: $base-300
+
+    &:hover {
+        background: $base-300
+        border-color: $base-300
+    }
+}
+
+.btn-primary {
+    include btn-base
+    background: $primary
+    color: $primary-content
+    border-color: $primary
+
+    &:hover {
+        background: $primary-focus
+        border-color: $primary-focus
+    }
+}
+
+.btn-secondary {
+    include btn-base
+    background: $secondary
+    color: $secondary-content
+    border-color: $secondary
+
+    &:hover {
+        background: $secondary-focus
+        border-color: $secondary-focus
+    }
+}
+
+.btn-accent {
+    include btn-base
+    background: $accent
+    color: $accent-content
+    border-color: $accent
+
+    &:hover {
+        background: $accent-focus
+        border-color: $accent-focus
+    }
+}
+
+.btn-ghost {
+    include btn-base
+    background: transparent
+    color: $base-content
+    border-color: transparent
+
+    &:hover {
+        background: $base-200
+    }
+}
+
+.btn-outline {
+    include btn-base
+    background: transparent
+    color: $primary
+    border-color: $primary
+
+    &:hover {
+        background: $primary
+        color: $primary-content
+    }
+}
+
+.btn-sm {
+    height: 2.25rem
+    padding-left: 1rem
+    padding-right: 1rem
+    font-size: 12px
+}
+
+.btn-lg {
+    height: 3.5rem
+    padding-left: 2rem
+    padding-right: 2rem
+    font-size: 16px
+}
+
+.btn-block { width: 100% }
+.btn-circle {
+    border-radius: 9999px
+    padding: 0
+    width: 3rem
+}
+
+// ─── Card ───
+.card {
+    display: flex
+    flex-direction: column
+    background: $base-100
+    border-radius: 16px
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
+    overflow: hidden
+}
+
+.card-body {
+    display: flex
+    flex-direction: column
+    gap: 8px
+    padding: 24px
+}
+
+.card-title {
+    font-size: 20px
+    font-weight: 700
+    line-height: 1.25
+}
+
+.card-actions {
+    display: flex
+    gap: 8px
+    margin-top: 12px
+}
+
+// ─── Badge ───
+mixin badge-base {
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    height: 1.5rem
+    padding-left: 0.75rem
+    padding-right: 0.75rem
+    font-size: 12px
+    font-weight: 600
+    border-radius: 8px
+    border: 1px solid transparent
+    line-height: 1
+}
+
+.badge {
+    include badge-base
+    background: $base-200
+    color: $base-content
+    border-color: $base-300
+}
+
+.badge-primary {
+    include badge-base
+    background: $primary
+    color: $primary-content
+    border-color: $primary
+}
+
+.badge-secondary {
+    include badge-base
+    background: $secondary
+    color: $secondary-content
+    border-color: $secondary
+}
+
+.badge-accent {
+    include badge-base
+    background: $accent
+    color: $accent-content
+    border-color: $accent
+}
+
+.badge-outline {
+    include badge-base
+    background: transparent
+    color: $primary
+    border-color: $primary
+}
+
+// ─── Alert ───
+mixin alert-base {
+    display: flex
+    align-items: center
+    gap: 12px
+    padding: 16px
+    border-radius: 8px
+    font-size: 14px
+    line-height: 1.5
+}
+
+.alert {
+    include alert-base
+    background: $base-200
+    color: $base-content
+}
+
+.alert-info {
+    include alert-base
+    background: rgba(59, 191, 248, 0.1)
+    color: $info
+}
+
+.alert-success {
+    include alert-base
+    background: rgba(54, 211, 153, 0.1)
+    color: $success
+}
+
+.alert-warning {
+    include alert-base
+    background: rgba(251, 189, 35, 0.1)
+    color: $warning
+}
+
+.alert-error {
+    include alert-base
+    background: rgba(248, 114, 114, 0.1)
+    color: $error
+}

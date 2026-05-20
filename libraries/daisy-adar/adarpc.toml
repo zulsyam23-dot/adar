@@ -1,0 +1,5 @@
+[package]
+name = "daisy-adar"
+version = "0.1.0"
+description = "Component library for Adar (inspired by daisyUI)"
+author = "Adar"

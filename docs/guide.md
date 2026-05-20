@@ -444,9 +444,9 @@ Standard CSS functions pass through as-is to the output:
 }
 ```
 
-### Custom Functions (Experimental)
+### Custom Functions
 
-Custom functions can be defined but currently pass through without evaluation:
+Custom functions can be defined and are evaluated at compile time:
 
 ```adar
 // Define a function
@@ -458,10 +458,10 @@ function rem($px) {
     return $px / 16px * 1rem
 }
 
-// Usage (output compiles to literal function call)
+// Usage
 .container {
-    padding: spacing(4)
-    font-size: rem(16)
+    padding: spacing(4)     // compiles to: padding: calc(4 * 4px)
+    font-size: rem(16)      // compiles to: font-size: calc(calc(16 / 16) * 1rem)
 }
 ```
 
@@ -713,13 +713,19 @@ adar check src/
 
 ### `adarpc` (Project Manager)
 
-Manage Adar projects with a Cargo-like workflow.
+Manage Adar projects with a robust, modular workflow. `adarpc` handles project initialization, dependency management, and build pipelines.
 
 ```bash
-# Create a new project
+# Create a new modular project
 adarpc init my-project
 
-# Build (compile .adar to output/style/)
+# Install dependencies from adarpc.toml
+adarpc install
+
+# Type-check all files in the project
+adarpc check
+
+# Build project (compile Adar and copy assets)
 adarpc build
 
 # Dev server with live reload
@@ -729,38 +735,111 @@ adarpc serve
 adarpc watch
 ```
 
-Project structure created by `adarpc init`:
+#### Project Structure (Modular)
+
+When you run `adarpc init`, a modular project structure is created:
 
 ```
 my-project/
 ├── src/
-│   ├── index.html         # HTML source
-│   └── style.adar         # Adar source
-├── output/
-│   └── style/
-│       └── style.css      # Compiled CSS
-├── adarpc.toml            # Project config
+│   ├── components/        # Reusable Adar components (mixins)
+│   │   └── button.adar
+│   ├── assets/            # Images, fonts, and other assets
+│   ├── index.html         # HTML entry point
+│   └── style.adar         # Main entry point (imports components)
+├── output/                # Generated build (ready for deployment)
+│   ├── style/
+│   │   └── style.css      # Compiled & bundled CSS
+│   ├── index.html         # Copied HTML
+│   └── assets/            # Copied assets
+├── adarpc.toml            # Project configuration
 └── .gitignore
 ```
 
-### `adarpc.toml`
+#### `adarpc build` Behavior
+
+The `adarpc build` command performs the following actions:
+1.  **Cleans/Prepares** the `output/` directory.
+2.  **Compiles** all `.adar` files in `src/` to `output/style/`.
+3.  **Resolves** all `import` statements, inlining library and component code.
+4.  **Copies** all non-Adar files (HTML, PNG, SVG, etc.) from `src/` to `output/` maintaining the directory structure.
+
+#### `adarpc.toml` Configuration
 
 ```toml
 [project]
 name = "my-project"
 version = "0.1.0"
+description = "A modular Adar project"
 
 [build]
-output = "output"
-minify = false
-scope = false
-source = "src"
+source = "src"            # Source directory
+output = "output"         # Build output directory
+minify = false            # Minify CSS output
+scope = true              # Enable CSS Modules scoping
 
 [dev]
-port = 8080
-watch = true
-livereload = true
+port = 8080               # Dev server port
+watch = true              # Enable watching in 'serve'
+livereload = true         # Enable live reload in 'serve'
+
+[dependencies]
+tailwind-adar = "0.1.0"   # Library dependency
 ```
+
+---
+
+## Modular Project Architecture
+
+For large-scale projects, follow these best practices for organizing your Adar code:
+
+### 1. Component-Based Design
+Break your UI into small, reusable components. Each component should be in its own `.adar` file under `src/components/` and expose its styles via **Mixins**.
+
+```adar
+// src/components/card.adar
+mixin card-style($bg) {
+    background: $bg
+    padding: 20px
+    border-radius: 8px
+}
+```
+
+### 2. Centralized Variables
+Keep your design tokens (colors, spacing, typography) in a dedicated file.
+
+```adar
+// src/theme.adar
+$primary = #3b82f6
+$spacing-unit = 4px
+```
+
+### 3. Entry Point Management
+Use a single entry point (e.g., `style.adar`) to import everything. This ensures a single CSS bundle and consistent variable resolution.
+
+```adar
+// src/style.adar
+import "theme"
+import "components/card"
+import "components/button"
+
+.main-content {
+    include card-style(white)
+}
+```
+
+### 4. Asset Organization
+Store images and fonts in `src/assets/`. `adarpc build` will automatically copy them to the output directory, making relative paths in your CSS work correctly.
+
+---
+
+## Best Practices for Modularity
+
+- **Use Mixins for Components**: Instead of defining classes directly in component files, use mixins. This gives the consumer control over which class name to apply the styles to.
+- **Prefix Library Variables**: When creating a library, prefix your variables (e.g., `$my-lib-primary`) to avoid collisions with user variables.
+- **Explicit Imports**: Always import the specific files you need. Adar's compiler optimizes imports to prevent duplicate code.
+- **Type Safety First**: Use `adarpc check` frequently during development to catch property errors before they break your layout.
+- **Theme Scoping**: Use `theme` blocks for dark mode or multi-brand support instead of manual class toggling.
 
 ---
 
@@ -1103,6 +1182,123 @@ def compile_adar(source: str, filename: str = "style.adar") -> str:
 | `CSSSpec()` | `adar.checker` | CSS property definitions |
 | `Resolver()` | `adar.resolver` | Resolves mixins & variables |
 | `CodeGenerator(scoped?, pretty?)` | `adar.codegen` | Generates CSS output |
+
+---
+
+## Library Ecosystem (adarlib)
+
+Adar has a growing ecosystem of component and utility libraries available through `adarpc` — the Adar package manager.
+
+### Available Libraries
+
+| Library | Version | Description |
+|---------|---------|-------------|
+| **tailwind-adar** | 0.1.0 | Tailwind CSS utility classes — spacing, colors, typography, layout, shadows, responsive |
+| **daisy-adar** | 0.1.0 | Component library inspired by daisyUI — buttons, cards, badges, alerts, themes |
+| **material-adar** | 0.1.0 | Material Design 3 components — buttons, cards, chips, dialogs, typography system |
+
+All libraries are open-source and hosted on GitHub:
+[https://github.com/zulsyam23-dot/adarlib](https://github.com/zulsyam23-dot/adarlib)
+
+### Installing Libraries
+
+```bash
+# Install a library
+adarpc install tailwind-adar
+
+# Install multiple libraries
+adarpc install daisy-adar material-adar
+
+# Install all libraries listed in adarpc.toml
+adarpc install
+```
+
+Installed libraries are placed in `adar_modules/` directory in your project.
+
+### Using Libraries
+
+After installing a library, import it in your `.adar` file:
+
+```adar
+// Import the entire library
+import "tailwind-adar"
+
+// Or import specific files from a library
+import "daisy-adar/button"
+```
+
+Library imports are resolved at compile time — the library's styles are inlined
+into the output CSS.
+
+### Searching for Libraries
+
+```bash
+# Search the registry
+adarpc search button
+adarpc search material
+adarpc search tailwind
+```
+
+### Listing Installed Libraries
+
+```bash
+adarpc list
+```
+
+### Managing Dependencies
+
+Add libraries to your `adarpc.toml` to declare them as project dependencies:
+
+```toml
+[dependencies]
+tailwind-adar = "0.1.0"
+daisy-adar = "0.1.0"
+material-adar = "0.1.0"
+```
+
+Then install all dependencies at once:
+
+```bash
+adarpc install
+```
+
+This downloads and installs all declared libraries into `adar_modules/`.
+
+### Creating a Library
+
+To create your own Adar library:
+
+1. Create a directory with an `adarpc.toml` metadata file:
+   ```toml
+   [package]
+   name = "my-library"
+   version = "0.1.0"
+   description = "My component library"
+   ```
+
+2. Create `index.adar` with your components and utilities.
+
+3. Submit your library to the community at:
+   [https://github.com/zulsyam23-dot/adarlib](https://github.com/zulsyam23-dot/adarlib)
+
+### Library Structure
+
+A well-structured Adar library follows these conventions:
+
+```
+my-library/
+├── adarpc.toml      # Package metadata (name, version, description)
+├── index.adar       # Main entry point (imported by default)
+├── button.adar      # Individual components (optional)
+├── card.adar
+└── utilities.adar
+```
+
+Users can import specific files:
+```adar
+import "my-library"            # imports index.adar
+import "my-library/button"     # imports button.adar
+```
 
 ---
 

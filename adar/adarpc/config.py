@@ -5,6 +5,8 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .package import Dependency
+
 
 @dataclass
 class BuildConfig:
@@ -34,6 +36,7 @@ class AdarpcConfig:
     project: ProjectConfig = field(default_factory=ProjectConfig)
     build: BuildConfig = field(default_factory=BuildConfig)
     dev: DevConfig = field(default_factory=DevConfig)
+    dependencies: list[Dependency] = field(default_factory=list)
     _root: Path = field(default_factory=Path.cwd)
 
     @property
@@ -70,6 +73,12 @@ source = "src"
 port = 8080
 watch = true
 livereload = true
+
+[dependencies]
+# Add libraries from the adarlib ecosystem:
+# tailwind-adar = "0.1.0"
+# daisy-adar = "0.1.0"
+# material-adar = "0.1.0"
 """
 
 
@@ -113,6 +122,12 @@ def load_config(path: Path | None = None) -> AdarpcConfig:
     cfg.dev.port = dev.get("port", 8080)
     cfg.dev.watch = dev.get("watch", True)
     cfg.dev.livereload = dev.get("livereload", True)
+
+    deps = data.get("dependencies", {})
+    cfg.dependencies = [
+        Dependency(name=k, version=str(v) if not isinstance(v, dict) else v.get("version", "*"))
+        for k, v in deps.items()
+    ]
 
     return cfg
 

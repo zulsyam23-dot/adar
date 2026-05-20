@@ -157,6 +157,7 @@ td { color: var(--text-muted); }
       <a href="#scoping-rules">Variable Scoping</a>
       <a href="#pipeline">Build Pipeline</a>
       <a href="#api">Python API</a>
+      <a href="#libraries">Library Ecosystem</a>
 
       <span class="section-label">Examples</span>
       <a href="#example-button">Button Component</a>
@@ -940,6 +941,69 @@ livereload = true</pre>
 <span class="comment">// Output (.css + .modules.json)</span></pre>
 
     <p>Each stage can produce errors that halt the pipeline. The <code>adar check</code> command runs through the checker stage, while <code>adar build</code> runs the full pipeline.</p>
+
+    <!-- LIBRARY ECOSYSTEM -->
+    <h2 id="libraries">Library Ecosystem (adarlib)</h2>
+    <p>Adar has a growing ecosystem of component and utility libraries available through <code>adarpc</code>.</p>
+
+    <h3>Available Libraries</h3>
+    <table>
+      <tr><th>Library</th><th>Version</th><th>Description</th></tr>
+      <tr><td><code>tailwind-adar</code></td><td>0.1.0</td><td>Tailwind CSS utility classes — spacing, colors, typography, layout, shadows</td></tr>
+      <tr><td><code>daisy-adar</code></td><td>0.1.0</td><td>Component library inspired by daisyUI — buttons, cards, badges, alerts</td></tr>
+      <tr><td><code>material-adar</code></td><td>0.1.0</td><td>Material Design 3 components — buttons, cards, chips, dialogs</td></tr>
+    </table>
+
+    <h3>Installing Libraries</h3>
+    <pre class="code-block"><span class="comment"># Install a library</span>
+adarpc install tailwind-adar
+
+<span class="comment"># Install multiple libraries</span>
+adarpc install daisy-adar material-adar
+
+<span class="comment"># Install all libraries from adarpc.toml</span>
+adarpc install</pre>
+
+    <h3>Using Libraries in .adar Files</h3>
+    <p>After installing a library, use the <code>import</code> statement to include it:</p>
+    <pre class="code-block"><span class="comment">// Import the entire library</span>
+<span class="keyword">import</span> <span class="string">"tailwind-adar"</span>
+
+<span class="comment">// Or import specific files</span>
+<span class="keyword">import</span> <span class="string">"daisy-adar/button"</span></pre>
+
+    <h3>Managing Dependencies</h3>
+    <p>Add libraries to <code>adarpc.toml</code> to declare project dependencies:</p>
+    <pre class="code-block">[dependencies]
+tailwind-adar = "0.1.0"
+daisy-adar = "0.1.0"</pre>
+
+    <pre class="code-block"><span class="comment"># Install all declared dependencies</span>
+adarpc install</pre>
+
+    <h3>Searching &amp; Listing</h3>
+    <pre class="code-block"><span class="comment"># Search the registry</span>
+adarpc search button
+adarpc search material
+
+<span class="comment"># List installed packages</span>
+adarpc list</pre>
+
+    <h3>Creating a Library</h3>
+    <p>Create your own Adar library with this structure:</p>
+    <pre class="code-block">my-library/
+├── adarpc.toml      <span class="comment">// Package metadata</span>
+├── index.adar       <span class="comment">// Main entry point</span>
+├── button.adar      <span class="comment">// Optional components</span>
+└── card.adar</pre>
+
+    <p>Example <code>adarpc.toml</code> for a library:</p>
+    <pre class="code-block">[package]
+name = "my-library"
+version = "0.1.0"
+description = "My component library"</pre>
+
+    <p>Submit your library at: <a href="https://github.com/zulsyam23-dot/adarlib">github.com/zulsyam23-dot/adarlib</a></p>
 
     <!-- API REFERENCE -->
     <h2 id="api">Using Adar as a Python Library</h2>

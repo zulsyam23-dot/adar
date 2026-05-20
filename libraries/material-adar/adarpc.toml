@@ -1,0 +1,5 @@
+[package]
+name = "material-adar"
+version = "0.1.0"
+description = "Material Design 3 components for Adar"
+author = "Adar"

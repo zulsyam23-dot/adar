@@ -394,5 +394,10 @@ class CSSSpec:
         if value_type == ValueType.LINE_WIDTH and ValueType.LENGTH in prop.allowed_types:
             return None
 
+        if value_type == ValueType.NUMBER:
+            len_like = {ValueType.LENGTH, ValueType.LINE_WIDTH, ValueType.PERCENTAGE, ValueType.FONT_SIZE}
+            if len_like & set(prop.allowed_types):
+                return None
+
         allowed = ", ".join(t.name for t in prop.allowed_types)
         return f"Type mismatch for '{prop_name}': expected [{allowed}], got {value_type.name}"

@@ -127,7 +127,16 @@ class Parser:
         if tok.type == TokenType.INCLUDE:
             self._advance()
             name_tok = self._expect(TokenType.IDENTIFIER)
-            return MixinInclude(name_tok.value)
+            args: list[ValueExpr] = []
+            if self._peek().type == TokenType.LPAREN:
+                self._advance()
+                if self._peek().type != TokenType.RPAREN:
+                    args.append(self._parse_value_expr())
+                    while self._peek().type == TokenType.COMMA:
+                        self._advance()
+                        args.append(self._parse_value_expr())
+                self._expect(TokenType.RPAREN)
+            return MixinInclude(name_tok.value, args)
 
         if tok.type == TokenType.IF:
             return self._parse_if_stmt()
@@ -254,12 +263,19 @@ class Parser:
         _STOP = {
             TokenType.RBRACE, TokenType.LBRACE, TokenType.SEMICOLON,
             TokenType.NEWLINE, TokenType.EOF, TokenType.RPAREN,
-            TokenType.COMMA, TokenType.COLON,
+            TokenType.COLON,
         }
 
         while self._peek().type not in _STOP:
             if self._peek().type == TokenType.NEWLINE:
                 break
+            
+            if self._peek().type == TokenType.COMMA:
+                self._advance()
+                # Represent comma as a special identifier for now or handle in ValueList
+                values.append(Identifier(","))
+                continue
+
             values.append(self._parse_single_value())
 
         if len(values) == 1:

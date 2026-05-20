@@ -94,7 +94,7 @@ class Resolver:
     def _resolve_stmt(self, node: Node) -> Node | list[Node] | None:
         if isinstance(node, VariableAssign):
             self._declare_variable(node.name, self._theme or "block", node.value)
-            return None
+            return node
         if isinstance(node, Property):
             return Property(node.name, self._resolve_value(node.value))
         if isinstance(node, IfStmt):
@@ -106,7 +106,21 @@ class Resolver:
         if isinstance(node, MixinInclude):
             mixin = self._mixins.get(node.name)
             if mixin:
-                return self._resolve_block(mixin.children)
+                # Bind parameters to arguments
+                # Note: we use CSS variables for these, so we emit them as VariableAssign
+                # which will be turned into CSS variables by codegen.
+                # However, if we want compile-time substitution, we should bind them here.
+                # The documentation says "Parameters become var(--name)", which means
+                # they are intended to be CSS variables.
+                # But if we pass arguments, we should probably emit VariableAssign nodes
+                # at the beginning of the included block.
+                
+                new_stmts: list[Node] = []
+                for param, arg in zip(mixin.params, node.args):
+                    new_stmts.append(VariableAssign(param, arg))
+                
+                new_stmts.extend(mixin.children)
+                return self._resolve_block(new_stmts)
             return node
         if isinstance(node, Rule):
             return self._resolve_rule(node)
@@ -122,6 +136,19 @@ class Resolver:
 
     def _resolve_value(self, value: ValueExpr) -> ValueExpr:
         if isinstance(value, FunctionCall):
+            fn = self._functions.get(value.name)
+            if fn:
+                # Simple function evaluation by substitution
+                # Bind params to args
+                bindings = {}
+                for param, arg in zip(fn.params, value.args):
+                    bindings[param] = self._resolve_value(arg)
+                
+                # Find ReturnStmt
+                for child in fn.children:
+                    if isinstance(child, ReturnStmt):
+                        return self._substitute_variables(child.value, bindings)
+            
             return FunctionCall(
                 value.name,
                 [self._resolve_value(a) for a in value.args],
@@ -137,3 +164,23 @@ class Resolver:
         if isinstance(value, ValueList):
             return ValueList([self._resolve_value(v) for v in value.values])
         return value
+
+    def _substitute_variables(self, expr: ValueExpr, bindings: dict[str, ValueExpr]) -> ValueExpr:
+        if isinstance(expr, Variable):
+            return bindings.get(expr.name, expr)
+        if isinstance(expr, BinaryOp):
+            return BinaryOp(
+                expr.op,
+                self._substitute_variables(expr.left, bindings),
+                self._substitute_variables(expr.right, bindings),
+            )
+        if isinstance(expr, UnaryOp):
+            return UnaryOp(expr.op, self._substitute_variables(expr.operand, bindings))
+        if isinstance(expr, FunctionCall):
+            return FunctionCall(
+                expr.name,
+                [self._substitute_variables(a, bindings) for a in expr.args],
+            )
+        if isinstance(expr, ValueList):
+            return ValueList([self._substitute_variables(v, bindings) for v in expr.values])
+        return expr

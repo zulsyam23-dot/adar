@@ -7,6 +7,7 @@ from adar.parser import Parser
 from adar.checker import Checker, CSSSpec
 from adar.resolver import Resolver
 from adar.codegen import CodeGenerator
+from adar.adarpc.resolve_imports import resolve_imports_for_file
 
 
 def compile_file(
@@ -15,6 +16,7 @@ def compile_file(
     scoped: bool = True,
     pretty: bool = True,
     check_only: bool = False,
+    src_dir: Path | None = None,
 ) -> tuple[bool, str]:
     source = input_path.read_text(encoding="utf-8")
     filename = str(input_path)
@@ -32,6 +34,11 @@ def compile_file(
     except SyntaxError as e:
         print(f"  {_RED}Parser Error:{_RESET} {e}")
         return False, ""
+
+    # Resolve imports relative to input file and source directory
+    _src = src_dir or input_path.parent
+    _root = _src.parent
+    ast = resolve_imports_for_file(ast, input_path, _src, _root)
 
     spec = CSSSpec()
     checker = Checker(spec)
@@ -94,7 +101,7 @@ def cmd_build(args: argparse.Namespace) -> None:
         rel = f.relative_to(src_dir.parent) if src_dir.is_dir() else f.name
         print(f"\n  {_CYAN}{rel}{_RESET}")
         out = out_dir / f.with_suffix(".css").name
-        ok, _ = compile_file(f, out, scoped=not args.no_scope, pretty=not args.minify, check_only=args.check)
+        ok, _ = compile_file(f, out, scoped=not args.no_scope, pretty=not args.minify, check_only=args.check, src_dir=src_dir)
         if ok:
             success_count += 1
         else:
@@ -119,7 +126,7 @@ def cmd_check(args: argparse.Namespace) -> None:
     for f in files:
         rel = f.relative_to(path.parent) if path.is_dir() else f.name
         print(f"  Checking {rel}...", end="")
-        ok, _ = compile_file(f, check_only=True)
+        ok, _ = compile_file(f, check_only=True, src_dir=path)
         if ok:
             success += 1
         else:
