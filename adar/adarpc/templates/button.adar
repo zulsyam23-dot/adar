@@ -1,29 +1,30 @@
 // Button component
-$btn-primary = #3b82f6
-$btn-radius = 8px
+$btn-primary = #6366f1
+$btn-radius = 12px
 
 mixin btn-base {
     display: inline-flex
     align-items: center
-    padding: 10px 20px
+    padding: 12px 24px
     border-radius: $btn-radius
     border: none
     cursor: pointer
-    font-weight: 500
-    transition: all 0.2s
+    font-weight: 600
+    font-size: 16px
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1)
     
     &:active {
-        transform: scale(0.95)
+        transform: scale(0.96)
     }
 }
 
 .btn {
     include btn-base
-    background: #e2e8f0
+    background: #f1f5f9
     color: #475569
     
     &:hover {
-        background: #cbd5e1
+        background: #e2e8f0
     }
 }
 
@@ -31,8 +32,11 @@ mixin btn-base {
     include btn-base
     background: $btn-primary
     color: white
+    box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2)
     
     &:hover {
-        background: #2563eb
+        background: #4f46e5
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3)
+        transform: translateY(-1px)
     }
 }

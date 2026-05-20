@@ -28,6 +28,7 @@ def init_project(name: str, path: Path | None = None) -> Path:
 
     # Write templates
     _write_template("index.html", src_dir / "index.html", name=name)
+    _write_template("main.js", src_dir / "main.js")
     _write_template("style.adar", src_dir / "style.adar", project_name=name)
     _write_template("button.adar", comp_dir / "button.adar")
 

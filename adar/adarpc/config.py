@@ -66,7 +66,7 @@ author = ""
 [build]
 output = "output"
 minify = false
-scope = false
+scope = true
 source = "src"
 
 [dev]
@@ -76,9 +76,9 @@ livereload = true
 
 [dependencies]
 # Add libraries from the adarlib ecosystem:
-# tailwind-adar = "0.1.0"
-# daisy-adar = "0.1.0"
-# material-adar = "0.1.0"
+# adar-ui-core = "0.1.0"
+# adar-ui-fancy = "0.1.0"
+# adar-ui-pro = "0.1.0"
 """
 
 

@@ -168,7 +168,7 @@ class CodeGenerator:
             hash_str = hashlib.md5(seed.encode()).hexdigest()[:6]
             scoped_cls = f".{clean}__{hash_str}"
             scoped = selector.replace(cls, scoped_cls, 1)
-            self._mapping[cls] = scoped_cls
+            self._mapping[clean] = scoped_cls.lstrip(".")
             return scoped
         return selector
 

@@ -5,25 +5,28 @@
 // Modular imports
 import "components/button"
 
-$primary = #3b82f6
+$primary = #6366f1
+$bg-light = #f8fafc
 
 .container {
     max-width: 1200px
     margin: 0 auto
     padding: 40px
-    font-family: system-ui, sans-serif
+    font-family: system-ui, -apple-system, sans-serif
 }
 
 .hero {
     text-align: center
-    padding: 80px 0
-    background: #f8fafc
+    padding: 80px 40px
+    background: $bg-light
     border-radius: 24px
+    border: 1px solid #e2e8f0
     
     h1 {
         font-size: 48px
         margin-bottom: 16px
         color: #1e293b
+        letter-spacing: -0.02em
     }
     
     p {
@@ -37,4 +40,17 @@ $primary = #3b82f6
     display: flex
     justify-content: center
     gap: 16px
+}
+
+.info {
+    margin-top: 48px
+    padding: 32px
+    background: white
+    border-radius: 16px
+    border-left: 4px solid $primary
+    
+    h3 {
+        margin-bottom: 8px
+        color: #1e293b
+    }
 }

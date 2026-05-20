@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ name }} | Adar Project</title>
+    <!-- The compiled CSS will be in style/ folder -->
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="app" class="container">
         <section class="hero">
             <h1>Welcome to {{ name }}</h1>
-            <p>A modular project built with Adar Language.</p>
+            <p>A modular project built with <strong>Adar Language</strong>.</p>
             
             <div class="flex-center">
-                <button class="btn-primary">Get Started</button>
+                <!-- Direct class usage (scoped) -->
+                <button id="btn-start" class="btn-primary">Get Started</button>
                 <button class="btn">Documentation</button>
             </div>
         </section>
+
+        <section class="info">
+            <h3>Safe JS Integration</h3>
+            <p>Open the console to see scoped class names from <code>adar-modules.json</code>.</p>
+        </section>
     </div>
+
+    <!-- Demonstration of how to use adar-modules.json in JS -->
+    <script type="module" src="main.js"></script>
 </body>
 </html>
