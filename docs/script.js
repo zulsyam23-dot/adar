@@ -50,7 +50,8 @@ sys.path.insert(0, '/compiler')
 
 async function fetchCompilerFiles() {
   const files = {};
-  const base = 'compiler';
+  const scriptUrl = (document.currentScript && document.currentScript.src) || '';
+  const base = scriptUrl ? scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1) + 'compiler' : 'compiler';
 
   const knownFiles = [
     '__init__.py', 'cli.py',
