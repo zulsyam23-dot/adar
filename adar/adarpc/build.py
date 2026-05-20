@@ -61,11 +61,11 @@ def build(config: AdarpcConfig) -> int:
         print(f"    {_GREEN}ok{_RESET}  {rel} -> style/{css_name}")
         ok += 1
 
-    # Write modules.json if scoping is enabled
+    # Write adar-modules.json if scoping is enabled
     if config.build.scope and all_mappings:
-        modules_json = out_dir / "modules.json"
+        modules_json = out_dir / "adar-modules.json"
         modules_json.write_text(json.dumps(all_mappings, indent=2), encoding="utf-8")
-        print(f"    {_GREEN}ok{_RESET}  generated modules.json for JS integration")
+        print(f"    {_GREEN}ok{_RESET}  generated adar-modules.json for JS integration")
 
     # 2. Copy HTML files and other assets
     asset_count = 0
@@ -163,6 +163,8 @@ def _compile_file_with_mapping(path: Path, config: AdarpcConfig) -> tuple[str, d
         gen = CodeGenerator(
             scoped=config.build.scope,
             pretty=not config.build.minify,
+            source_file=str(path.relative_to(config.src_dir)),
+            project_name=config.project.name,
         )
         css = gen.generate(resolved)
         return css, gen.mapping

@@ -21,7 +21,7 @@ _RED = "\x1b[31m"
 class CodeGenerator:
     def __init__(
         self, scoped: bool = True, pretty: bool = True,
-        source_file: str = "",
+        source_file: str = "", project_name: str = "adar-project",
     ) -> None:
         self.scoped = scoped
         self.pretty = pretty
@@ -31,6 +31,7 @@ class CodeGenerator:
         self._themes: list[ThemeDef] = []
         self._css_vars: dict[str, str] = {}
         self.source_file = source_file
+        self.project_name = project_name
         self._global_vars: list[VariableAssign] = []
 
     @property
@@ -153,11 +154,18 @@ class CodeGenerator:
     def _scope_selector(self, selector: str) -> str:
         if selector == "&":
             return "&"
+        
+        # Support :global() to skip scoping
+        if ":global(" in selector:
+            return re.sub(r":global\((.*?)\)", r"\1", selector)
+
         cls_match = re.search(r"\.[a-zA-Z_][a-zA-Z0-9_-]*", selector)
         if cls_match:
             cls = cls_match.group(0)
             clean = cls.lstrip(".")
-            hash_str = hashlib.md5(clean.encode()).hexdigest()[:6]
+            # Seed with project name + file path + class name for ultimate uniqueness
+            seed = f"{self.project_name}:{self.source_file}:{clean}"
+            hash_str = hashlib.md5(seed.encode()).hexdigest()[:6]
             scoped_cls = f".{clean}__{hash_str}"
             scoped = selector.replace(cls, scoped_cls, 1)
             self._mapping[cls] = scoped_cls
