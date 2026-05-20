@@ -101,6 +101,13 @@ def main(argv: list[str] | None = None) -> int:
         help="Path to adarpc.toml",
     )
 
+    # publish
+    publish_p = sub.add_parser("publish", help="Verify and prepare library for submission")
+    publish_p.add_argument(
+        "--config", "-c",
+        help="Path to adarpc.toml",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "init":
@@ -125,6 +132,9 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "check":
         from .build import check_project
         return check_project(cfg)
+    elif args.command == "publish":
+        from .publish import publish_library
+        return publish_library(cfg)
     elif args.command == "watch":
         watch(cfg)
         return 0

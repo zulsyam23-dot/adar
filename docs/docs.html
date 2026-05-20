@@ -1058,6 +1058,26 @@ description = "My component library"</pre>
 
     <p>Submit your library at: <a href="https://github.com/zulsyam23-dot/adarlib">github.com/zulsyam23-dot/adarlib</a></p>
 
+    <h2 id="publishing-libraries">Publishing a Library</h2>
+    <p>Sharing your Adar library is easy and safe. Follow these steps to prepare and submit your library to the central registry.</p>
+
+    <h3>1. Prepare your Library</h3>
+    <p>Ensure your library has a valid <code>adarpc.toml</code> with a clear name and description. Your main entry point must be <code>src/index.adar</code>.</p>
+
+    <h3>2. Run the Publish Command</h3>
+    <p>Adar provides a verification tool to ensure your library is bug-free before submission:</p>
+    <pre class="code-block">adarpc publish</pre>
+    <p>This command will run type-checking on all your files and verify your metadata.</p>
+
+    <h3>3. Submit to AdarLib</h3>
+    <p>Once verification passes, follow these steps:</p>
+    <ol>
+      <li>Push your code to a public GitHub repository.</li>
+      <li>Visit the <a href="https://github.com/zulsyam23-dot/adarlib" target="_blank">AdarLib Registry</a> on GitHub.</li>
+      <li>Submit a <strong>Pull Request</strong> or <strong>New Issue</strong> with your library details.</li>
+    </ol>
+    <p>After review, your library will be added to the registry and become searchable via <code>adarpc search</code>.</p>
+
     <!-- API REFERENCE -->
     <h2 id="api">Using Adar as a Python Library</h2>
     <p>Adar's compiler modules can be imported and used programmatically:</p>
