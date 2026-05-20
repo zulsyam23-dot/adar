@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adar — CSS-like styling language with type checking</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">&lt;Adar/&gt;</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#playground">Playground</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>&lt;Adar/&gt;</h1>
+    <p class="hero-sub">A modern CSS-like styling language with <strong>compile-time type checking</strong>.</p>
+    <p class="hero-desc">Write modular, scoped styles with variables, mixins, nesting, themes, and if/else — then compile to clean CSS with zero runtime.</p>
+    <div class="hero-actions">
+      <a href="#playground" class="btn btn-primary">Try Playground</a>
+      <a href="#install" class="btn btn-secondary">Install</a>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <h2>Features</h2>
+  <div class="features">
+    <div class="feature-card">
+      <h3>Type Checking</h3>
+      <p>Detects invalid CSS property values at compile time. Catches bugs before they reach the browser.</p>
+    </div>
+    <div class="feature-card">
+      <h3>CSS Modules</h3>
+      <p>Automatic class scoping with <code>.modules.json</code> mapping. No more class conflicts.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Themes</h3>
+      <p><code>theme name { }</code> blocks compile to <code>[data-theme="name"]</code> selectors. Built-in CSS custom properties.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Mixins</h3>
+      <p>Reusable style blocks with parameters. Keep your code <abbr title="Don't Repeat Yourself">DRY</abbr>.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Nesting</h3>
+      <p>CSS nesting with <code>&amp;</code> parent reference. Compiles to clean nested CSS.</p>
+    </div>
+    <div class="feature-card">
+      <h3>if/else</h3>
+      <p>Compile-time conditional styles. Toggle features on/off with variables.</p>
+    </div>
+    <div class="feature-card">
+      <h3>CSS Variables</h3>
+      <p><code>$var</code> becomes <code>var(--var)</code> in output. Automatic scoping under themes.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Property Validation</h3>
+      <p>150+ CSS properties validated by type. Wrong unit? Invalid color? Caught instantly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section demo-section">
+  <h2>How it looks</h2>
+  <div class="demo-cols">
+    <div class="demo-col">
+      <div class="demo-label">Adar</div>
+      <pre class="code-block"><span class="kw">$primary</span> = <span class="val">#3b82f6</span>
+<span class="kw">$radius</span> = <span class="val">8px</span>
+
+<span class="sel">.card</span> {
+    <span class="prop">background</span>: <span class="val">white</span>
+    <span class="prop">border-radius</span>: <span class="val">$radius</span>
+    <span class="prop">box-shadow</span>: <span class="val">0 1px 3px rgba(0,0,0,0.1)</span>
+
+    <span class="sel">&amp;:hover</span> {
+        <span class="prop">box-shadow</span>: <span class="val">0 4px 12px rgba(0,0,0,0.15)</span>
+    }
+}</pre>
+    </div>
+    <div class="demo-col">
+      <div class="demo-label">Compiled CSS</div>
+      <pre class="code-block"><span class="sel">.card__a1b2c3</span> {
+  <span class="prop">background</span>: <span class="val">white</span>;
+  <span class="prop">border-radius</span>: <span class="val">var(--radius)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 1px 3px rgba(0,0,0,0.1)</span>;
+}
+<span class="sel">.card__a1b2c3:hover</span> {
+  <span class="prop">box-shadow</span>: <span class="val">0 4px 12px rgba(0,0,0,0.15)</span>;
+}</pre>
+    </div>
+  </div>
+</section>
+
+<section id="playground" class="section">
+  <h2>Playground</h2>
+  <p class="section-desc">Write Adar on the left, see compiled CSS on the right. Powered by <a href="https://pyodide.org" target="_blank">Pyodide</a> (Python in WASM).</p>
+  <div class="playground">
+    <div class="playground-input">
+      <div class="playground-header">
+        <span>Input (Adar)</span>
+        <button id="run-btn" class="btn btn-small" onclick="compile()">Compile</button>
+      </div>
+      <textarea id="input" spellcheck="false">// Variables
+$primary = #3b82f6
+$radius = 8px
+
+// CSS Rule
+.card {
+    background: white
+    border-radius: $radius
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1)
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15)
+    }
+}
+</textarea>
+    </div>
+    <div class="playground-output">
+      <div class="playground-header">
+        <span>Output (CSS)</span>
+        <button class="btn btn-small" onclick="copyOutput()">Copy</button>
+      </div>
+      <pre id="output" class="output-area">Click "Compile" to run...</pre>
+    </div>
+  </div>
+  <div id="loading-indicator" class="loading hidden">Loading Pyodide (Python compiler)...</div>
+  <div id="error-display" class="error hidden"></div>
+</section>
+
+<section id="install" class="section">
+  <h2>Install</h2>
+  <div class="install-options">
+    <div class="install-card">
+      <h3>Windows (Standalone .exe)</h3>
+      <p>Download the latest <code>adar.exe</code> and <code>adarpc.exe</code> from the <a href="https://github.com/zulsyam23-dot/adar/releases" target="_blank">releases page</a>.</p>
+      <pre class="code-block">adar build style.adar -o dist/
+adarpc init my-project
+adarpc build</pre>
+    </div>
+    <div class="install-card">
+      <h3>Python (pip)</h3>
+      <pre class="code-block">git clone https://github.com/zulsyam23-dot/adar.git
+cd adar
+pip install -e .
+
+adar build src/style.adar -o dist/
+adar check src/
+adarpc init my-site</pre>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>MIT License &mdash; Adar v0.1.0</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
