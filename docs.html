@@ -1070,13 +1070,21 @@ description = "My component library"</pre>
     <p>This command will run type-checking on all your files and verify your metadata.</p>
 
     <h3>3. Submit to AdarLib</h3>
-    <p>Once verification passes, follow these steps:</p>
+    <p>Once verification passes, follow these steps to add your library to the official registry:</p>
     <ol>
       <li>Push your code to a public GitHub repository.</li>
-      <li>Visit the <a href="https://github.com/zulsyam23-dot/adarlib" target="_blank">AdarLib Registry</a> on GitHub.</li>
-      <li>Submit a <strong>Pull Request</strong> or <strong>New Issue</strong> with your library details.</li>
+      <li>Visit the <a href="https://github.com/zulsyam23-dot/adarlib/blob/main/registry.json" target="_blank">registry.json</a> file on GitHub.</li>
+      <li>Click the <strong>Edit (pencil icon)</strong> to add your library details to the list.</li>
+      <li>Submit a <strong>Pull Request</strong> with your changes.</li>
     </ol>
-    <p>After review, your library will be added to the registry and become searchable via <code>adarpc search</code>.</p>
+    <p>Your library entry in <code>registry.json</code> should look like this:</p>
+    <pre class="code-block">"nama-library-anda": {
+    "version": "0.1.0",
+    "description": "Deskripsi singkat library anda",
+    "repo": "username/nama-repo",
+    "path": "libraries/nama-folder",
+    "author": "Nama Anda"
+}</pre>
 
     <!-- API REFERENCE -->
     <h2 id="api">Using Adar as a Python Library</h2>
