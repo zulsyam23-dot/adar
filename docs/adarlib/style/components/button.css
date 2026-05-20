@@ -1,0 +1,41 @@
+:root {
+  --btn-primary: #3b82f6;
+  --btn-radius: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: var(--btn-radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  &:active {
+    transform: scale(0.95);
+  }
+  background: #e2e8f0;
+  color: #475569;
+  &:hover {
+    background: #cbd5e1;
+  }
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: var(--btn-radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  &:active {
+    transform: scale(0.95);
+  }
+  background: var(--btn-primary);
+  color: white;
+  &:hover {
+    background: #2563eb;
+  }
+}
