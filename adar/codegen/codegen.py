@@ -33,6 +33,11 @@ class CodeGenerator:
         self.source_file = source_file
         self._global_vars: list[VariableAssign] = []
 
+    @property
+    def mapping(self) -> dict[str, str]:
+        """Return the collected CSS Modules mapping."""
+        return self._mapping
+
     def generate(self, stylesheet: Stylesheet) -> str:
         self._lines = []
         self._mapping = {}

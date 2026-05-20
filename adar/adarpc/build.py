@@ -12,6 +12,7 @@ from adar.resolver.resolver import Resolver
 from adar.codegen.codegen import CodeGenerator
 
 
+import json
 import shutil
 
 
@@ -34,26 +35,37 @@ def build(config: AdarpcConfig) -> int:
     style_dir.mkdir(parents=True, exist_ok=True)
     failed = 0
     ok = 0
+    
+    all_mappings: dict[str, dict[str, str]] = {}
 
     print(f"\n  {_CYAN}Building project '{config.project.name}'...{_RESET}")
 
     # 1. Compile Adar files
     for adar_path in adar_files:
-        # Skip files in components/ if they are just for imports (optional convention)
-        # For now, compile everything but maintain structure
         rel = adar_path.relative_to(src_dir)
         css_name = rel.with_suffix(".css")
         css_path = style_dir / css_name
         css_path.parent.mkdir(parents=True, exist_ok=True)
 
-        result = _compile_file(adar_path, config)
-        if result is None:
+        comp_result = _compile_file_with_mapping(adar_path, config)
+        if comp_result is None:
             failed += 1
             continue
+        
+        css_content, mapping = comp_result
+        css_path.write_text(css_content, encoding="utf-8")
+        
+        if mapping:
+            all_mappings[str(rel).replace("\\", "/")] = mapping
 
-        css_path.write_text(result, encoding="utf-8")
         print(f"    {_GREEN}ok{_RESET}  {rel} -> style/{css_name}")
         ok += 1
+
+    # Write modules.json if scoping is enabled
+    if config.build.scope and all_mappings:
+        modules_json = out_dir / "modules.json"
+        modules_json.write_text(json.dumps(all_mappings, indent=2), encoding="utf-8")
+        print(f"    {_GREEN}ok{_RESET}  generated modules.json for JS integration")
 
     # 2. Copy HTML files and other assets
     asset_count = 0
@@ -121,7 +133,7 @@ _CYAN = "\x1b[36m"
 
 
 
-def _compile_file(path: Path, config: AdarpcConfig) -> str | None:
+def _compile_file_with_mapping(path: Path, config: AdarpcConfig) -> tuple[str, dict[str, str]] | None:
     source = path.read_text(encoding="utf-8")
 
     try:
@@ -152,8 +164,10 @@ def _compile_file(path: Path, config: AdarpcConfig) -> str | None:
             scoped=config.build.scope,
             pretty=not config.build.minify,
         )
-        return gen.generate(resolved)
+        css = gen.generate(resolved)
+        return css, gen.mapping
 
     except Exception as e:
         print(f"\n  [FAIL] {path.name}: {e}")
         return None
+
