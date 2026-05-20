@@ -1,6 +1,17 @@
 let pyodide = null;
 let pyodideReady = false;
 
+// Code tabs
+document.querySelectorAll('.code-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('code-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Pyodide
 async function initPyodide() {
   const loading = document.getElementById('loading-indicator');
   const error = document.getElementById('error-display');
@@ -28,8 +39,8 @@ async function initPyodide() {
     `);
 
     pyodideReady = true;
-    loading.textContent = 'Compiler loaded! Click "Compile" to run.';
-    setTimeout(() => { loading.classList.add('hidden'); }, 1500);
+    loading.innerHTML = '<span class="spinner"></span> Compiler loaded! Click <strong>Compile</strong> to run.';
+    setTimeout(() => { loading.classList.add('hidden'); }, 2000);
   } catch (err) {
     error.textContent = 'Failed to load compiler: ' + err.message;
     error.classList.remove('hidden');
@@ -69,17 +80,19 @@ async function compile() {
   const input = document.getElementById('input');
   const output = document.getElementById('output');
   const error = document.getElementById('error-display');
+  const runBtn = document.getElementById('run-btn');
   error.classList.add('hidden');
 
   if (!pyodideReady) {
-    output.textContent = 'Loading compiler... please wait.';
+    output.innerHTML = 'Loading compiler, please wait&hellip;';
     if (!pyodide) initPyodide();
     return;
   }
 
   const source = input.value;
+  runBtn.disabled = true;
+  runBtn.textContent = 'Compiling...';
 
-  // Write source to virtual filesystem (safe, no escaping issues)
   pyodide.FS.writeFile('/tmp/playground.adar', source);
 
   try {
@@ -127,16 +140,19 @@ print(json.dumps({'css': css}))
 `);
     const data = JSON.parse(result);
     if (data.error) {
-      output.textContent = data.error;
+      output.innerHTML = data.error;
       output.style.color = '#fca5a5';
     } else {
       output.textContent = data.css;
       output.style.color = '#6ee7b7';
     }
   } catch (err) {
-    output.textContent = 'Error: ' + err.message;
+    output.innerHTML = 'Error: ' + err.message;
     output.style.color = '#fca5a5';
   }
+
+  runBtn.disabled = false;
+  runBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg> Compile';
 }
 
 function copyOutput() {
@@ -144,8 +160,36 @@ function copyOutput() {
   navigator.clipboard.writeText(output.textContent).catch(() => {});
 }
 
+function resetCode() {
+  document.getElementById('input').value = `// Variables
+$primary = #3b82f6
+$radius = 8px
+
+// Mixin
+mixin card-base {
+    border-radius: $radius
+    padding: 16px
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+}
+
+// Rule with nesting
+.btn {
+    include card-base
+    background: $primary
+    color: white
+    border: none
+    cursor: pointer
+
+    &:hover {
+        background: #2563eb
+        transform: translateY(-2px)
+    }
+}`;
+}
+
 window.compile = compile;
 window.copyOutput = copyOutput;
+window.resetCode = resetCode;
 
 if (document.getElementById('playground')) {
   initPyodide();

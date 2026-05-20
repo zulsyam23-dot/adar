@@ -3,154 +3,287 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adar — CSS-like styling language with type checking</title>
+<title>Adar — CSS-like styling language with compile-time type checking</title>
+<meta name="description" content="Adar is a modern CSS-like styling language that compiles to modular, scoped CSS with compile-time type checking. Catch property errors before they reach the browser.">
+<meta property="og:title" content="Adar — CSS-like styling language with type checking">
+<meta property="og:description" content="Write modular, scoped styles with variables, mixins, nesting, themes, and if/else. Compiles to clean CSS with zero runtime.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zulsyam23-dot.github.io/adar/">
+<meta property="og:image" content="https://zulsyam23-dot.github.io/adar/og-image.png">
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#" class="logo">&lt;Adar/&gt;</a>
+    <a href="#" class="logo">
+      <img src="logo.svg" alt="Adar" class="logo-img" width="32" height="32">
+      <span>Adar</span>
+    </a>
     <div class="nav-links">
       <a href="#features">Features</a>
+      <a href="#examples">Examples</a>
       <a href="#playground">Playground</a>
       <a href="#install">Install</a>
-      <a href="https://github.com/zulsyam23-dot/adar" target="_blank">GitHub</a>
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener" class="nav-gh">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span>GitHub</span>
+      </a>
     </div>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
   <div class="hero-content">
-    <h1>&lt;Adar/&gt;</h1>
+    <div class="hero-logo">
+      <img src="logo.svg" alt="Adar" width="96" height="96">
+    </div>
+    <h1>Adar</h1>
     <p class="hero-sub">A modern CSS-like styling language with <strong>compile-time type checking</strong>.</p>
-    <p class="hero-desc">Write modular, scoped styles with variables, mixins, nesting, themes, and if/else — then compile to clean CSS with zero runtime.</p>
+    <p class="hero-desc">Write modular, scoped styles with variables, mixins, nesting, themes, and if/else &mdash; then compile to clean CSS with zero runtime. Catch property errors before they reach the browser.</p>
     <div class="hero-actions">
-      <a href="#playground" class="btn btn-primary">Try Playground</a>
-      <a href="#install" class="btn btn-secondary">Install</a>
+      <a href="#playground" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
+        Try Playground
+      </a>
+      <a href="#install" class="btn btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Install
+      </a>
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener" class="btn btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Source
+      </a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">v0.1.0</span>
+      <span class="badge">MIT License</span>
+      <span class="badge">Python 3.11+</span>
     </div>
   </div>
 </section>
 
 <section id="features" class="section">
-  <h2>Features</h2>
-  <div class="features">
+  <div class="section-label">Features</div>
+  <h2>Everything you need for modern styles</h2>
+  <p class="section-desc">Adar combines the best ideas from CSS preprocessors with compile-time safety.</p>
+  <div class="features-grid">
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
       <h3>Type Checking</h3>
-      <p>Detects invalid CSS property values at compile time. Catches bugs before they reach the browser.</p>
+      <p>Detects invalid CSS property values at compile time. 150+ properties validated by type.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
       <h3>CSS Modules</h3>
-      <p>Automatic class scoping with <code>.modules.json</code> mapping. No more class conflicts.</p>
+      <p>Automatic class scoping with <code>.modules.json</code> mapping. No more conflicts.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
       <h3>Themes</h3>
-      <p><code>theme name { }</code> blocks compile to <code>[data-theme="name"]</code> selectors. Built-in CSS custom properties.</p>
+      <p><code>theme name { }</code> compiles to <code>[data-theme="name"]</code> selectors with CSS custom properties.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h12"/></svg>
+      </div>
       <h3>Mixins</h3>
-      <p>Reusable style blocks with parameters. Keep your code <abbr title="Don't Repeat Yourself">DRY</abbr>.</p>
+      <p>Reusable style blocks with parameters. Keep your code DRY.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
       <h3>Nesting</h3>
       <p>CSS nesting with <code>&amp;</code> parent reference. Compiles to clean nested CSS.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </div>
       <h3>if/else</h3>
-      <p>Compile-time conditional styles. Toggle features on/off with variables.</p>
+      <p>Compile-time conditionals. Toggle features on/off with variables.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      </div>
       <h3>CSS Variables</h3>
-      <p><code>$var</code> becomes <code>var(--var)</code> in output. Automatic scoping under themes.</p>
+      <p><code>$var</code> becomes <code>var(--var)</code> in output. Automatic scoping.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
       <h3>Property Validation</h3>
-      <p>150+ CSS properties validated by type. Wrong unit? Invalid color? Caught instantly.</p>
+      <p>Wrong unit? Invalid color? Invalid property? Caught instantly at compile time.</p>
     </div>
   </div>
 </section>
 
-<section class="section demo-section">
-  <h2>How it looks</h2>
-  <div class="demo-cols">
-    <div class="demo-col">
-      <div class="demo-label">Adar</div>
-      <pre class="code-block"><span class="kw">$primary</span> = <span class="val">#3b82f6</span>
+<section id="examples" class="section section-alt">
+  <div class="section-label">Examples</div>
+  <h2>See Adar in action</h2>
+  <p class="section-desc">A button component with themes, variables, nesting, and mixins.</p>
+
+  <div class="code-tabs">
+    <div class="code-tab active" data-tab="adar">Adar</div>
+    <div class="code-tab" data-tab="css">Compiled CSS</div>
+  </div>
+
+  <div class="code-panel active" id="code-adar">
+    <pre class="code-block"><span class="cm">// Variables</span>
+<span class="kw">$primary</span> = <span class="val">#3b82f6</span>
 <span class="kw">$radius</span> = <span class="val">8px</span>
 
-<span class="sel">.card</span> {
-    <span class="prop">background</span>: <span class="val">white</span>
+<span class="cm">// Mixin</span>
+<span class="kw">mixin</span> <span class="fn">card-base</span> {
     <span class="prop">border-radius</span>: <span class="val">$radius</span>
-    <span class="prop">box-shadow</span>: <span class="val">0 1px 3px rgba(0,0,0,0.1)</span>
+    <span class="prop">padding</span>: <span class="val">16px</span>
+    <span class="prop">box-shadow</span>: <span class="val">0 2px 8px rgba(0,0,0,0.1)</span>
+}
+
+<span class="cm">// Rule with nesting</span>
+<span class="sel">.btn</span> {
+    <span class="kw">include</span> <span class="fn">card-base</span>
+    <span class="prop">background</span>: <span class="val">$primary</span>
+    <span class="prop">color</span>: <span class="val">white</span>
+    <span class="prop">border</span>: <span class="val">none</span>
+    <span class="prop">cursor</span>: <span class="val">pointer</span>
 
     <span class="sel">&amp;:hover</span> {
-        <span class="prop">box-shadow</span>: <span class="val">0 4px 12px rgba(0,0,0,0.15)</span>
+        <span class="prop">background</span>: <span class="val">#2563eb</span>
+        <span class="prop">transform</span>: <span class="val">translateY(-2px)</span>
+    }
+
+    <span class="sel">&amp;:active</span> {
+        <span class="prop">transform</span>: <span class="val">translateY(0)</span>
     }
 }</pre>
-    </div>
-    <div class="demo-col">
-      <div class="demo-label">Compiled CSS</div>
-      <pre class="code-block"><span class="sel">.card__a1b2c3</span> {
-  <span class="prop">background</span>: <span class="val">white</span>;
+  </div>
+
+  <div class="code-panel" id="code-css">
+    <pre class="code-block"><span class="sel">.btn__a1b2c3</span> {
   <span class="prop">border-radius</span>: <span class="val">var(--radius)</span>;
-  <span class="prop">box-shadow</span>: <span class="val">0 1px 3px rgba(0,0,0,0.1)</span>;
+  <span class="prop">padding</span>: <span class="val">16px</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 2px 8px rgba(0,0,0,0.1)</span>;
+  <span class="prop">background</span>: <span class="val">var(--primary)</span>;
+  <span class="prop">color</span>: <span class="val">white</span>;
+  <span class="prop">border</span>: <span class="val">none</span>;
+  <span class="prop">cursor</span>: <span class="val">pointer</span>;
 }
-<span class="sel">.card__a1b2c3:hover</span> {
-  <span class="prop">box-shadow</span>: <span class="val">0 4px 12px rgba(0,0,0,0.15)</span>;
+<span class="sel">.btn__a1b2c3:hover</span> {
+  <span class="prop">background</span>: <span class="val">#2563eb</span>;
+  <span class="prop">transform</span>: <span class="val">translateY(-2px)</span>;
+}
+<span class="sel">.btn__a1b2c3:active</span> {
+  <span class="prop">transform</span>: <span class="val">translateY(0)</span>;
 }</pre>
-    </div>
   </div>
 </section>
 
 <section id="playground" class="section">
-  <h2>Playground</h2>
-  <p class="section-desc">Write Adar on the left, see compiled CSS on the right. Powered by <a href="https://pyodide.org" target="_blank">Pyodide</a> (Python in WASM).</p>
+  <div class="section-label">Playground</div>
+  <h2>Try it live</h2>
+  <p class="section-desc">Write Adar on the left, see compiled CSS on the right. Powered by <a href="https://pyodide.org" target="_blank" rel="noopener">Pyodide</a> &mdash; Python running in your browser via WebAssembly.</p>
+
   <div class="playground">
-    <div class="playground-input">
+    <div class="playground-col">
       <div class="playground-header">
-        <span>Input (Adar)</span>
-        <button id="run-btn" class="btn btn-small" onclick="compile()">Compile</button>
+        <span class="playground-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Input &mdash; Adar
+        </span>
+        <div class="playground-actions">
+          <button class="btn-icon" id="reset-btn" onclick="resetCode()" title="Reset to default">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+          </button>
+          <button id="run-btn" class="btn btn-small" onclick="compile()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
+            Compile
+          </button>
+        </div>
       </div>
       <textarea id="input" spellcheck="false">// Variables
 $primary = #3b82f6
 $radius = 8px
 
-// CSS Rule
-.card {
-    background: white
+// Mixin
+mixin card-base {
     border-radius: $radius
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1)
+    padding: 16px
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+}
+
+// Rule with nesting
+.btn {
+    include card-base
+    background: $primary
+    color: white
+    border: none
+    cursor: pointer
 
     &:hover {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15)
+        background: #2563eb
+        transform: translateY(-2px)
     }
-}
-</textarea>
+}</textarea>
     </div>
-    <div class="playground-output">
+    <div class="playground-col">
       <div class="playground-header">
-        <span>Output (CSS)</span>
-        <button class="btn btn-small" onclick="copyOutput()">Copy</button>
+        <span class="playground-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Output &mdash; CSS
+        </span>
+        <button class="btn-icon" onclick="copyOutput()" title="Copy to clipboard">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
       </div>
-      <pre id="output" class="output-area">Click "Compile" to run...</pre>
+      <pre id="output" class="output-area">Click <strong>Compile</strong> to run the compiler&hellip;</pre>
     </div>
   </div>
-  <div id="loading-indicator" class="loading hidden">Loading Pyodide (Python compiler)...</div>
-  <div id="error-display" class="error hidden"></div>
+
+  <div id="loading-indicator" class="status status-info hidden">
+    <div class="spinner"></div>
+    <span>Loading Pyodide (Python WebAssembly compiler)&hellip;</span>
+  </div>
+  <div id="error-display" class="status status-error hidden"></div>
 </section>
 
-<section id="install" class="section">
-  <h2>Install</h2>
-  <div class="install-options">
+<section id="install" class="section section-alt">
+  <div class="section-label">Install</div>
+  <h2>Get started in seconds</h2>
+  <p class="section-desc">Choose your preferred installation method.</p>
+
+  <div class="install-grid">
     <div class="install-card">
-      <h3>Windows (Standalone .exe)</h3>
-      <p>Download the latest <code>adar.exe</code> and <code>adarpc.exe</code> from the <a href="https://github.com/zulsyam23-dot/adar/releases" target="_blank">releases page</a>.</p>
+      <div class="install-card-header">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+        <h3>Windows (Standalone .exe)</h3>
+      </div>
+      <p>Download <code>adar.exe</code> and <code>adarpc.exe</code> from <a href="https://github.com/zulsyam23-dot/adar/releases" target="_blank" rel="noopener">GitHub Releases</a>. Run <code>install.bat</code> as Administrator to add to PATH.</p>
       <pre class="code-block">adar build style.adar -o dist/
+adar check style.adar
 adarpc init my-project
-adarpc build</pre>
+adarpc build
+adarpc serve</pre>
     </div>
     <div class="install-card">
-      <h3>Python (pip)</h3>
+      <div class="install-card-header">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <h3>Python (pip)</h3>
+      </div>
       <pre class="code-block">git clone https://github.com/zulsyam23-dot/adar.git
 cd adar
 pip install -e .
@@ -163,7 +296,17 @@ adarpc init my-site</pre>
 </section>
 
 <footer class="footer">
-  <p>MIT License &mdash; Adar v0.1.0</p>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo.svg" alt="Adar" width="24" height="24">
+      <span>Adar v0.1.0</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/zulsyam23-dot/adar" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/zulsyam23-dot/adar/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      <a href="docs/guide.md" target="_blank" rel="noopener">Documentation</a>
+    </div>
+  </div>
 </footer>
 
 <script src="script.js"></script>
