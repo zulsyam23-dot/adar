@@ -8,6 +8,39 @@ document.querySelectorAll('.code-tab').forEach(tab => {
   });
 });
 
+// Hamburger nav toggle
+(function() {
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  const overlay = document.getElementById('navOverlay');
+  if (!toggle || !links) return;
+
+  function closeNav() {
+    toggle.classList.remove('open');
+    links.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openNav() {
+    toggle.classList.add('open');
+    links.classList.add('open');
+    if (overlay) overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  toggle.addEventListener('click', () => {
+    if (links.classList.contains('open')) closeNav();
+    else openNav();
+  });
+
+  if (overlay) overlay.addEventListener('click', closeNav);
+
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', closeNav);
+  });
+})();
+
 function copyText(btn) {
   const code = btn.parentElement.querySelector('code');
   if (code) {
