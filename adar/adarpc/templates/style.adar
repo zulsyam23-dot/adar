@@ -1,0 +1,73 @@
+// ============================================================
+// {{ project_name }} - Main Stylesheet
+// ============================================================
+
+// -- Design Tokens -------------------------------------------
+$primary = #3b82f6
+$text = #1e293b
+$text-muted = #64748b
+$bg = #ffffff
+$bg-surface = #f8fafc
+$border = #e2e8f0
+$radius = 8px
+$font-sans = system-ui
+$max-width = 1200px
+$space = 16px
+
+// -- Themes --------------------------------------------------
+theme light {
+    $bg = #ffffff
+    $text = #1e293b
+    $bg-surface = #f8fafc
+    $border = #e2e8f0
+    $primary = #3b82f6
+}
+
+theme dark {
+    $bg = #0f172a
+    $text = #f1f5f9
+    $bg-surface = #1e293b
+    $border = #334155
+    $primary = #60a5fa
+}
+
+// -- Global --------------------------------------------------
+* {
+    box-sizing: border-box
+    margin: 0px
+    padding: 0px
+}
+
+body {
+    font-family: $font-sans
+    background: $bg
+    color: $text
+    line-height: 1.6
+    padding: $space
+    max-width: $max-width
+    margin: 0px auto
+}
+
+// -- Typography ----------------------------------------------
+h1 {
+    font-size: 2rem
+    font-weight: 700
+    margin-bottom: $space
+    color: $text
+}
+
+p {
+    color: $text-muted
+    line-height: 1.7
+}
+
+// -- Responsive ----------------------------------------------
+@media (max-width: 640px) {
+    body {
+        padding: $space
+    }
+
+    h1 {
+        font-size: 1.5rem
+    }
+}

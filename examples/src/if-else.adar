@@ -1,0 +1,26 @@
+$dark-mode = true
+$font-large = false
+
+.btn {
+    background: #ffffff
+    color: #111827
+
+    if $dark-mode {
+        background: #1a1a2e
+        color: #e5e7eb
+    }
+
+    font-size: 16px
+
+    if $font-large {
+        font-size: 20px
+    } else {
+        font-size: 14px
+    }
+}
+
+if $dark-mode {
+    .dark-override {
+        border-color: #374151
+    }
+}

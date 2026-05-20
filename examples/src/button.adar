@@ -1,0 +1,58 @@
+$primary = #3b82f6
+$secondary = #6366f1
+$spacing-base = 8px
+
+theme dark {
+    $primary = #60a5fa
+    $secondary = #818cf8
+}
+
+mixin card-base {
+    border-radius: 8px
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+    padding: $spacing-base * 2
+}
+
+.btn {
+    include card-base
+    background: $primary
+    color: #ffffff
+    border: none
+    cursor: pointer
+    font-size: 16px
+    font-weight: 600
+    padding: $spacing-base * 2 $spacing-base * 4
+    transition: all 0.2s
+
+    &:hover {
+        background: $secondary
+        transform: translateY(-2px)
+    }
+
+    &:active {
+        transform: translateY(0px)
+    }
+
+    @media (max-width: 768px) {
+        width: 100%
+        font-size: 14px
+    }
+}
+
+.card {
+    include card-base
+    background: #ffffff
+    border: 1px solid #e5e7eb
+
+    .card-title {
+        font-size: 20px
+        font-weight: 700
+        color: #111827
+    }
+
+    .card-body {
+        font-size: 14px
+        color: #6b7280
+        line-height: 1.6
+    }
+}

@@ -1,0 +1,20 @@
+$theme = "dark"
+$font-size = 16
+
+.card {
+    background: white
+
+    if $theme == "dark" {
+        background: #1a1a2e
+        color: #e5e7eb
+    } else if $theme == "light" {
+        background: #ffffff
+        color: #111827
+    } else {
+        background: #f0f0f0
+    }
+
+    if $font-size > 14 {
+        padding: 16px
+    }
+}

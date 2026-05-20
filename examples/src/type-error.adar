@@ -1,0 +1,5 @@
+.foo {
+    color: 16px
+    width: #ff0000
+    unknown-prop: 1
+}
