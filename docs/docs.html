@@ -150,6 +150,13 @@ td { color: var(--text-muted); }
       <a href="#types">Type System</a>
       <a href="#scoping">CSS Modules (Scoping)</a>
       <a href="#expressions">Expressions &amp; Math</a>
+      <a href="#animations">Animations &amp; @keyframes</a>
+
+      <span class="section-label">Reference</span>
+      <a href="#errors">Error Messages</a>
+      <a href="#scoping-rules">Variable Scoping</a>
+      <a href="#pipeline">Build Pipeline</a>
+      <a href="#api">Python API</a>
 
       <span class="section-label">Examples</span>
       <a href="#example-button">Button Component</a>
@@ -302,7 +309,7 @@ livereload = true</pre>
     <h2 id="syntax">Syntax Overview</h2>
     <p>Adar syntax is similar to CSS but with key differences:</p>
     <ul>
-      <li><strong>No colons</strong> between properties and values &mdash; just space-separated (e.g. <code>background: white</code> is a <em>property: value</em> pair)</li>
+      <li><strong>Colons</strong> separate property names from values (e.g. <code>background: white</code>)</li>
       <li><strong>No semicolons</strong> &mdash; statements are separated by newlines</li>
       <li><code>//</code> for single-line comments (no <code>/* */</code> block comments)</li>
       <li><code>$name</code> for variables, which compile to <code>var(--name)</code> in CSS</li>
@@ -674,6 +681,33 @@ livereload = true</pre>
       <p><strong>Note:</strong> Only class selectors (<code>.class</code>) are scoped. Element selectors (<code>div</code>), ID selectors (<code>#id</code>), and attribute selectors are left unchanged.</p>
     </blockquote>
 
+    <!-- ANIMATIONS -->
+    <h2 id="animations">@keyframes &amp; Animations</h2>
+    <p>Adar supports CSS animations through standard property validation. Use <code>@keyframes</code> blocks directly:</p>
+    <pre class="code-block"><span class="comment">// Define keyframes</span>
+<span class="selector">@keyframes fadeIn</span> {
+    <span class="keyword">from</span> { <span class="property">opacity</span>: <span class="string">0</span> }
+    <span class="keyword">to</span> { <span class="property">opacity</span>: <span class="string">1</span> }
+}
+
+<span class="comment">// Use animation properties</span>
+<span class="selector">.element</span> {
+    <span class="property">animation-name</span>: <span class="string">fadeIn</span>
+    <span class="property">animation-duration</span>: <span class="string">0.3s</span>
+    <span class="property">animation-timing-function</span>: <span class="string">ease-in-out</span>
+    <span class="property">animation-iteration-count</span>: <span class="string">1</span>
+    <span class="property">animation-fill-mode</span>: <span class="string">both</span>
+}
+
+<span class="comment">// Shorthand</span>
+<span class="selector">.element</span> {
+    <span class="property">animation</span>: <span class="string">fadeIn 0.3s ease-in-out</span>
+}</pre>
+
+    <blockquote>
+      <p><strong>Note:</strong> <code>@keyframes</code> blocks pass through verbatim to the CSS output. The type checker validates animation-related properties.</p>
+    </blockquote>
+
     <!-- EXPRESSIONS -->
     <h2 id="expressions">Expressions &amp; Math</h2>
     <p>Adar supports basic arithmetic in property values and variable assignments.</p>
@@ -819,6 +853,131 @@ livereload = true</pre>
         }
     }
 }</pre>
+
+    <!-- ERRORS & DEBUGGING -->
+    <h2 id="errors">Error Messages &amp; Debugging</h2>
+    <p>Adar errors include the file name, line number, and column where the error occurred.</p>
+
+    <h3>Error Format</h3>
+    <pre class="code-block">Error [test.adar:5:12]: Type mismatch for 'color': expected [COLOR, IDENT], got LENGTH</pre>
+
+    <h3>Common Errors</h3>
+    <table>
+      <tr><th>Error</th><th>Cause</th><th>Example</th></tr>
+      <tr><td><code>Type mismatch</code></td><td>Wrong value type for property</td><td><code>color: 16px</code></td></tr>
+      <tr><td><code>Unknown CSS property</code></td><td>Property not in CSS spec</td><td><code>unknown-prop: x</code></td></tr>
+      <tr><td><code>Undefined variable</code></td><td>Variable not declared</td><td><code>$undefined</code></td></tr>
+      <tr><td><code>Undefined mixin</code></td><td>Mixin not defined before use</td><td><code>include missing</code></td></tr>
+      <tr><td><code>Binary operation type mismatch</code></td><td>Incompatible types in expression</td><td><code>10px + red</code></td></tr>
+      <tr><td><code>Function expects N arguments, got M</code></td><td>Wrong argument count</td><td><code>spacing(1, 2, 3)</code></td></tr>
+    </table>
+
+    <h3>Debugging Tips</h3>
+    <ol>
+      <li><strong>Use <code>adar check</code></strong> — Run type-checking without generating CSS to find all errors.</li>
+      <li><strong>Check variable names</strong> — Variables are case-sensitive (<code>$Primary</code> vs <code>$primary</code>).</li>
+      <li><strong>Verify mixin order</strong> — Mixins must be defined before they are included.</li>
+      <li><strong>Check selector syntax</strong> — Complex selectors may need simplification.</li>
+      <li><strong>Use <code>--no-scope</code></strong> — Disable scoping temporarily to isolate hash-related issues.</li>
+    </ol>
+
+    <!-- SCOPING -->
+    <h2 id="scoping-rules">Variable Scoping Rules</h2>
+    <p>Adar variables follow a cascading scope model:</p>
+
+    <h3>Global Scope</h3>
+    <p>Variables declared at the top level are available everywhere:</p>
+    <pre class="code-block"><span class="comment">// Global variable — available in all rules and mixins</span>
+<span class="keyword">$primary</span> = <span class="string">#3b82f6</span></pre>
+
+    <h3>Theme Scope</h3>
+    <p>Variables inside a <code>theme</code> block override global values within that theme:</p>
+    <pre class="code-block"><span class="keyword">theme</span> <span class="function">dark</span> {
+    <span class="keyword">$primary</span> = <span class="string">#60a5fa</span>  <span class="comment">// overrides --primary inside [data-theme="dark"]</span>
+}</pre>
+
+    <h3>Block Scope</h3>
+    <p>Variables declared inside a rule block are available within that block only:</p>
+    <pre class="code-block"><span class="selector">.card</span> {
+    <span class="keyword">$local-padding</span> = <span class="string">16px</span>  <span class="comment">// only available inside this rule</span>
+    <span class="property">padding</span>: <span class="string">$local-padding</span>
+}</pre>
+
+    <h3>Resolution Order</h3>
+    <p>When a variable is referenced, Adar resolves it in this order:</p>
+    <ol>
+      <li>Current block scope (innermost)</li>
+      <li>Theme scope (if inside a theme block)</li>
+      <li>Global scope (top-level)</li>
+    </ol>
+
+    <blockquote>
+      <p><strong>Important:</strong> Adar variables compile to CSS custom properties (<code>var(--name)</code>), not preprocessor-style text substitution. Variables are dynamically resolved at runtime by the browser.</p>
+    </blockquote>
+
+    <!-- BUILD PIPELINE -->
+    <h2 id="pipeline">Build Pipeline</h2>
+    <p>Understanding the compilation pipeline helps with debugging:</p>
+
+    <pre class="code-block"><span class="comment">// Source (.adar file)</span>
+<span class="op">|</span>
+<span class="op">v</span>
+<span class="keyword">LEXER</span>      Tokenizes source code into tokens
+<span class="op">|</span>          Handles: numbers, strings, identifiers, comments
+<span class="op">v</span>
+<span class="keyword">PARSER</span>     Builds AST (Abstract Syntax Tree) from tokens
+<span class="op">|</span>          Handles: rules, variables, mixins, functions
+<span class="op">v</span>
+<span class="keyword">CHECKER</span>    Validates property types against CSS spec
+<span class="op">|</span>          Checks: variable types, mixin references, binary ops
+<span class="op">v</span>
+<span class="keyword">RESOLVER</span>   Expands mixins, manages variable scopes
+<span class="op">|</span>          Handles: mixin includes, scope tracking
+<span class="op">v</span>
+<span class="keyword">CODEGEN</span>    Generates CSS output with optional scoping
+<span class="op">|</span>          Handles: scoping, minification, conditionals
+<span class="op">v</span>
+<span class="comment">// Output (.css + .modules.json)</span></pre>
+
+    <p>Each stage can produce errors that halt the pipeline. The <code>adar check</code> command runs through the checker stage, while <code>adar build</code> runs the full pipeline.</p>
+
+    <!-- API REFERENCE -->
+    <h2 id="api">Using Adar as a Python Library</h2>
+    <p>Adar's compiler modules can be imported and used programmatically:</p>
+
+    <pre class="code-block"><span class="keyword">from</span> adar.lexer <span class="keyword">import</span> Lexer
+<span class="keyword">from</span> adar.parser <span class="keyword">import</span> Parser
+<span class="keyword">from</span> adar.checker <span class="keyword">import</span> Checker
+<span class="keyword">from</span> adar.resolver <span class="keyword">import</span> Resolver
+<span class="keyword">from</span> adar.codegen <span class="keyword">import</span> CodeGenerator
+
+<span class="comment">// Full compilation pipeline</span>
+<span class="keyword">def</span> <span class="function">compile_adar</span>(source, filename=<span class="string">"style.adar"</span>):
+    lexer = Lexer(source, filename=filename)
+    tokens = lexer.tokenize()
+    parser = Parser(tokens)
+    ast = parser.parse()
+    checker = Checker()
+    result = checker.check(ast)
+    <span class="keyword">if</span> <span class="keyword">not</span> result.ok:
+        <span class="keyword">for</span> err <span class="keyword">in</span> result.errors:
+            print(<span class="string">f"Error: {err.message}"</span>)
+        <span class="keyword">return</span> <span class="string">""</span>
+    resolver = Resolver()
+    resolved = resolver.resolve(ast)
+    gen = CodeGenerator()
+    <span class="keyword">return</span> gen.generate(resolved)</pre>
+
+    <h3>API Classes</h3>
+    <table>
+      <tr><th>Class</th><th>Module</th><th>Description</th></tr>
+      <tr><td><code>Lexer(source, filename)</code></td><td><code>adar.lexer</code></td><td>Tokenizes source text</td></tr>
+      <tr><td><code>Parser(tokens)</code></td><td><code>adar.parser</code></td><td>Builds AST from tokens</td></tr>
+      <tr><td><code>Checker(spec?)</code></td><td><code>adar.checker</code></td><td>Validates property types</td></tr>
+      <tr><td><code>CSSSpec()</code></td><td><code>adar.checker</code></td><td>CSS property definitions</td></tr>
+      <tr><td><code>Resolver()</code></td><td><code>adar.resolver</code></td><td>Resolves mixins &amp; variables</td></tr>
+      <tr><td><code>CodeGenerator(scoped?, pretty?)</code></td><td><code>adar.codegen</code></td><td>Generates CSS output</td></tr>
+    </table>
 
     <!-- Footer spacer -->
     <div style="height: 64px"></div>

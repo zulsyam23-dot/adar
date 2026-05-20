@@ -132,7 +132,7 @@ def cmd_check(args: argparse.Namespace) -> None:
         print()
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="adar",
         description="Adar — Modern CSS-like styling language compiler",
@@ -149,7 +149,7 @@ def main() -> None:
     check = sub.add_parser("check", help="Type-check .adar files without generating CSS")
     check.add_argument("path", help="File or directory to check")
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     if args.command == "build":
         cmd_build(args)

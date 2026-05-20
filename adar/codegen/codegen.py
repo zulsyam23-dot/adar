@@ -223,6 +223,11 @@ class CodeGenerator:
             return expr.value
         if isinstance(expr, Number):
             return expr.value
+        if isinstance(expr, Dimension):
+            try:
+                return str(float(expr.value))
+            except ValueError:
+                return expr.value
         return self._value_to_css(expr)
 
     def _value_to_css(self, value: ValueExpr) -> str:

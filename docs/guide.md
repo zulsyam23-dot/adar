@@ -113,13 +113,14 @@ adar check style.adar
 
 Adar syntax is CSS-like with some key differences:
 
-- **Variables**: `$name = value`
+- **Variables**: `$name = value` (compiles to CSS `var(--name)`)
+- **Colons** separate property names from values: `property: value`
 - **No semicolons required**: newlines separate declarations (semicolons optional)
-- **Nesting**: rules can be nested inside other rules
-- **Parent reference**: `&` references the parent selector
-- **Comments**: `//` for line comments
+- **Nesting**: rules can be nested inside other rules using `&` parent reference
+- **Comments**: `//` for line comments, `/* */` for block comments
 - **Space-separated values**: `margin: 10px 20px 10px 20px`
 - **Keywords**: `theme`, `mixin`, `function`, `include`, `return`, `import`, `if`, `else`, `true`, `false`
+- **Type checking**: 150+ CSS properties validated at compile time
 
 ---
 
@@ -892,6 +893,216 @@ $enable-animations = true
     }
 }
 ```
+
+---
+
+## Error Messages & Debugging
+
+Adar errors include the file name, line number, and column where the error occurred.
+
+### Error Format
+
+```
+Error [test.adar:5:12]: Type mismatch for 'color': expected [COLOR, IDENT], got LENGTH
+```
+
+### Common Errors
+
+| Error | Cause | Example |
+|-------|-------|---------|
+| `Type mismatch` | Wrong value type for property | `color: 16px` |
+| `Unknown CSS property` | Property not in CSS spec | `unknown-prop: x` |
+| `Undefined variable` | Variable not declared | `$undefined` |
+| `Undefined mixin` | Mixin not defined before use | `include missing` |
+| `Binary operation type mismatch` | Incompatible types in expression | `10px + red` |
+| `Unexpected statement` | Syntax error or misplaced statement | `return` outside function |
+| `Function expects N arguments, got M` | Wrong argument count | `spacing(1, 2, 3)` |
+
+### Debugging Tips
+
+1. **Use `adar check`**: Run type-checking without generating CSS to find all errors
+2. **Check variable names**: Variables are case-sensitive (`$Primary` vs `$primary`)
+3. **Verify mixin order**: Mixins must be defined before they are included
+4. **Check selector syntax**: Complex selectors may need simplification
+5. **Use `--no-scope`**: Disable scoping temporarily to isolate hash-related issues
+
+---
+
+## Variable Scoping Rules
+
+Adar variables follow a cascading scope model:
+
+### Global Scope
+
+Variables declared at the top level are available everywhere:
+
+```adar
+// Global variable — available in all rules and mixins
+$primary = #3b82f6
+$radius = 8px
+```
+
+### Theme Scope
+
+Variables inside a `theme` block override global values within that theme:
+
+```adar
+theme dark {
+    $primary = #60a5fa   // overrides --primary inside [data-theme="dark"]
+}
+```
+
+### Block Scope
+
+Variables declared inside a rule block are available within that block only:
+
+```adar
+.card {
+    $local-padding = 16px   // only available inside this rule
+    padding: $local-padding
+}
+```
+
+### Resolution Order
+
+When a variable is referenced, Adar resolves it in this order:
+1. Current block scope (innermost)
+2. Theme scope (if inside a theme block)
+3. Global scope (top-level)
+
+### Important Note
+
+Adar variables compile to CSS custom properties (`var(--name)`), not preprocessor-style text substitution. This means:
+- Variables are dynamically resolved at runtime by the browser
+- Theme overrides work via the CSS cascade
+- Variables cannot be used in selectors or at-rule parameters
+
+---
+
+## @keyframes & Animations
+
+Adar supports CSS animations through standard property validation:
+
+```adar
+// Define keyframes in CSS and reference by name
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+// Use animation properties
+.element {
+    animation-name: fadeIn
+    animation-duration: 0.3s
+    animation-timing-function: ease-in-out
+    animation-delay: 0.1s
+    animation-iteration-count: 1
+    animation-fill-mode: both
+}
+
+// Shorthand
+.element {
+    animation: fadeIn 0.3s ease-in-out
+}
+```
+
+> **Note**: `@keyframes` blocks pass through verbatim to the CSS output. The type checker validates animation-related properties.
+
+---
+
+## Build Pipeline
+
+Understanding the compilation pipeline helps with debugging:
+
+```
+Source (.adar file)
+      |
+      v
+  ┌──────────┐
+  │  LEXER   │  Tokenizes source code into tokens
+  │          │  Handles: numbers, strings, identifiers, comments
+  └────┬─────┘
+       | tokens
+       v
+  ┌──────────┐
+  │  PARSER  │  Builds AST from tokens
+  │          │  Handles: rules, variables, mixins, functions
+  └────┬─────┘
+       | AST (Stylesheet)
+       v
+  ┌──────────┐
+  │ CHECKER  │  Validates property types against CSS spec
+  │          │  Checks: variable types, mixin references, binary ops
+  └────┬─────┘
+       | checked AST
+       v
+  ┌──────────┐
+  │ RESOLVER │  Expands mixins, manages variable scopes
+  │          │  Handles: mixin includes, scope tracking
+  └────┬─────┘
+       | resolved AST
+       v
+  ┌──────────┐
+  │CODEGEN   │  Generates CSS output
+  │          │  Handles: scoping, minification, conditionals
+  └────┬─────┘
+       | CSS string
+       v
+   Output (.css + .modules.json)
+```
+
+Each stage can produce errors that halt the pipeline. The `adar check` command runs through the checker stage, while `adar build` runs the full pipeline.
+
+---
+
+## Using Adar as a Python Library
+
+Adar's compiler modules can be imported and used programmatically:
+
+```python
+from adar.lexer import Lexer
+from adar.parser import Parser
+from adar.checker import Checker
+from adar.resolver import Resolver
+from adar.codegen import CodeGenerator
+
+# Full compilation pipeline
+def compile_adar(source: str, filename: str = "style.adar") -> str:
+    # 1. Lex
+    lexer = Lexer(source, filename=filename)
+    tokens = lexer.tokenize()
+
+    # 2. Parse
+    parser = Parser(tokens)
+    ast = parser.parse()
+
+    # 3. Type check
+    checker = Checker()
+    result = checker.check(ast)
+    if not result.ok:
+        for err in result.errors:
+            print(f"Error: {err.message}")
+        return ""
+
+    # 4. Resolve mixins & variables
+    resolver = Resolver()
+    resolved = resolver.resolve(ast)
+
+    # 5. Generate CSS
+    gen = CodeGenerator()
+    return gen.generate(resolved)
+```
+
+### API Reference
+
+| Class | Module | Description |
+|-------|--------|-------------|
+| `Lexer(source, filename)` | `adar.lexer` | Tokenizes source text |
+| `Parser(tokens)` | `adar.parser` | Builds AST from tokens |
+| `Checker(spec?)` | `adar.checker` | Validates property types |
+| `CSSSpec()` | `adar.checker` | CSS property definitions |
+| `Resolver()` | `adar.resolver` | Resolves mixins & variables |
+| `CodeGenerator(scoped?, pretty?)` | `adar.codegen` | Generates CSS output |
 
 ---
 

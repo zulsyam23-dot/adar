@@ -63,6 +63,8 @@ class _DevHandler(BaseHTTPRequestHandler):
                     content = html.encode("utf-8")
 
             mime, _ = mimetypes.guess_type(str(path))
+            if mime is None and path.suffix == ".css":
+                mime = "text/css"
             self.send_response(200)
             self.send_header("Content-Type", mime or "application/octet-stream")
             self.send_header("Content-Length", str(len(content)))
@@ -104,8 +106,11 @@ class _WebSocketServer:
             while True:
                 try:
                     client, _addr = self._server.accept()
-                    self._clients.append(client)
-                    self._handle_client(client)
+                    try:
+                        self._handle_client(client)
+                        self._clients.append(client)
+                    except Exception:
+                        self._remove_client(client)
                 except socket.timeout:
                     continue
                 except OSError:
@@ -136,7 +141,6 @@ class _WebSocketServer:
                         f"Sec-WebSocket-Accept: {accept}\r\n\r\n"
                     )
                     client.sendall(handshake.encode())
-                    self._clients.append(client)
         except Exception:
             self._remove_client(client)
 

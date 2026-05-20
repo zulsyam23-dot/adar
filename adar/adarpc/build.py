@@ -64,8 +64,7 @@ def _compile_file(path: Path, config: AdarpcConfig) -> str | None:
         if not check_result.ok:
             print(f"\n  [FAIL] {path.name}")
             for err in check_result.errors:
-                loc = err.location
-                print(f"    Error at {loc.line}:{loc.column}: {err.message}")
+                print(f"    Error: {err.message}")
             return None
 
         resolver = Resolver()
